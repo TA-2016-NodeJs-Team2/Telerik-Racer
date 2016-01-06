@@ -2,17 +2,17 @@ var mongoose = require('mongoose');
 
 let schema = new mongoose.Schema({
     name: {
-        type: String,
+        type: Date,
         required: true
     },
-    moneyForOnce: {
-        type: Number,
+    prices: {
+        type: [Number],
         required: true
     },
-    busyHours: {
+
+    damageToTake: {
         type: Number
     }
 });
 
-// tODO: seed Initial jobs
-mongoose.model('Job', schema);
+mongoose.model('Map', schema);
