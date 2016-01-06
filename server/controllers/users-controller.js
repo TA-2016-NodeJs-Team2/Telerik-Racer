@@ -121,10 +121,30 @@ var usersController = {
             return;
         }
 
+        // authenticated User
+        var user = req.user;
         var id = req.body.id;
 
-        // validation for deleting yourself
-        User.remove({_id: id}, function (err, result) {
+        // User should have role administrator.
+        if (user.role !== User.getRoles()[2]) {
+            res.status(401)
+                .json({
+                    message: 'permissions required!'
+                });
+            return;
+        }
+
+        // validation for deleting yourself. user._id is Object
+        if (user._id + '' === id + '') {
+            res.status(400)
+                .json({
+                    message: 'You cannot remove yourself!'
+                });
+            return;
+        }
+
+        // rawData is response from mnogodb witch have result with
+        User.remove({_id: id}, function (err, rawData) {
             if (err) {
                 res.status(400)
                     .json({
@@ -134,9 +154,9 @@ var usersController = {
             }
 
             res.json({
-                status: result.result.ok,
-                documentsModified: result.result.n,
-                message: 'removed!'
+                status: rawData.result.ok,
+                objectsModified: rawData.result.n,
+                message: rawData.result.n !== 0? 'removed!' :'user not found'
             });
         });
     },
