@@ -98,7 +98,7 @@ var usersController = {
                 }
 
                 if (!dbUser.token) {
-                	dbUser.token = SHA256(dbUser.username + ' ' + dbUser.password) + '';
+                    dbUser.token = SHA256(dbUser.username + ' ' + dbUser.password) + '';
                 }
 
                 // TODO: if lastLogin data is more than 72 hours -> generate a new token
@@ -113,8 +113,8 @@ var usersController = {
             });
     },
     deleteUser: function (req, res, next) {
-        if (!req.body) {
-        	res.status(400)
+        if (!(req.body) || !(req.body.id)) {
+            res.status(400)
                 .json({
                     message: 'you should provide an ID!'
                 });
@@ -122,6 +122,23 @@ var usersController = {
         }
 
         var id = req.body.id;
+
+        // validation for deleting yourself
+        User.remove({_id: id}, function (err, result) {
+            if (err) {
+                res.status(400)
+                    .json({
+                        message: 'wrong id!'
+                    });
+                return;
+            }
+
+            res.json({
+                status: result.result.ok,
+                documentsModified: result.result.n,
+                message: 'removed!'
+            });
+        });
     },
     allUsers: function (req, res, next) {
 
