@@ -161,7 +161,7 @@ var usersController = {
         });
     },
     allUsers: function (req, res, next) {
-
+        // **server-side paging** and **sorting**
     }
 };
 
