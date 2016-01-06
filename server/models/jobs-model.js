@@ -5,7 +5,7 @@ var schema = new mongoose.Schema({
         type: String,
         required: true
     },
-    moneyForOnce: {
+    money: {
         type: Number,
         required: true
     },
