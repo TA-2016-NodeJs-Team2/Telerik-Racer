@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 
-let schema = new mongoose.Schema({
+var userSchema = new mongoose.Schema({
     username: {
         type: String,
         minlength: 3,
@@ -16,8 +16,7 @@ let schema = new mongoose.Schema({
     },
     token: {
         type: String,
-        minlength: 10,
-        required: true
+        minlength: 10
     },
     role: {
         type: String,
@@ -29,6 +28,9 @@ let schema = new mongoose.Schema({
         required: true
     },
     rank: {
+        type: Number
+    },
+    respect: {
         type: Number
     },
     dateRegistered: {
@@ -47,4 +49,11 @@ let schema = new mongoose.Schema({
     }
 });
 
-mongoose.model('User', schema);
+// TODO: expiresTokenDate
+
+userSchema.statics.getRoles = function () {
+    'use strict';
+    return 'regular moderator administrator'.split(' ');
+};
+
+mongoose.model('User', userSchema);

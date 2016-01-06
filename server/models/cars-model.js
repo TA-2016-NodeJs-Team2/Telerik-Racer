@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 
-let schema = new mongoose.Schema({
+var schema = new mongoose.Schema({
     model: {
         type: String,
         required: true
@@ -31,5 +31,4 @@ let schema = new mongoose.Schema({
 });
 
 // TODO: Seed initial cars
-console.log('Cars loaded!');
 mongoose.model('Car', schema);

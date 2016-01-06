@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 
-let schema = new mongoose.Schema({
+var schema = new mongoose.Schema({
     name: {
         type: Date,
         required: true
@@ -9,10 +9,13 @@ let schema = new mongoose.Schema({
         type: [Number],
         required: true
     },
-
+    respectGiven: {
+        type: [Number]
+    },
     damageToTake: {
         type: Number
     }
 });
 
+// TODO: seed initial maps
 mongoose.model('Map', schema);
