@@ -2,6 +2,9 @@
 logs
 *.log
 
+# webstorm
+.idea
+
 # Runtime data
 pids
 *.pid

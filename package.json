@@ -1,0 +1,23 @@
+{
+  "name": "telerik-racer",
+  "version": "0.0.1",
+  "description": "A car system for a races and tournaments",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TA-2016-NodeJs-Team2/Telerik-Racer.git"
+  },
+  "author": "MY, PA, MK",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/TA-2016-NodeJs-Team2/Telerik-Racer/issues"
+  },
+  "homepage": "https://github.com/TA-2016-NodeJs-Team2/Telerik-Racer#readme",
+  "dependencies": {
+    "express": "^4.13.3",
+    "mongoose": "^4.3.4"
+  }
+}
