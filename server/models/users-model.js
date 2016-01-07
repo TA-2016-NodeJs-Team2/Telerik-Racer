@@ -7,6 +7,14 @@ var userSchema = new mongoose.Schema({
         required: true,
         index: {
             unique: true
+        },
+        validate: {
+            validator: function (val) {
+                'use strict';
+
+                return !val.includes(' ');
+            },
+            message: 'Username should not contain spaces'
         }
     },
     hashPassword: {

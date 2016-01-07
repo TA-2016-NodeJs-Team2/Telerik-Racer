@@ -65,9 +65,9 @@ module.exports = {
             User.remove({_id: id}, function (err, rawData) {
                 if (err) {
                     return reject({
-                            status: 400,
-                            message: 'wrong id!'
-                        });
+                        status: 400,
+                        message: 'wrong id!'
+                    });
                 }
 
                 resolve({
@@ -87,7 +87,7 @@ module.exports = {
                 .select('role username level money')
                 .exec(function (err, users) {
                     if (err) {
-                    	return reject(err);
+                        return reject(err);
                     }
 
                     resolve(users);
@@ -99,17 +99,30 @@ module.exports = {
             User.findById(id)
                 .exec(function (err, user) {
                     if (err) {
-                    	return reject(err);
+                        return reject(err);
                     }
 
                     if (!user) {
-                    	return reject({
+                        return reject({
                             message: 'Not found'
                         });
                     }
 
                     resolve(user);
                 });
+        });
+    },
+    update: function (id, model) {
+        return new BBPromise(function (resolve, reject) {
+            User.update({_id: id}, model, {multi: false}, function (err, rowAffected) {
+                if (err) {
+                	return reject({
+                        message: err.message
+                    });
+                }
+
+                resolve(rowAffected);
+            });
         });
     }
 };
