@@ -27,6 +27,14 @@ var schema = new mongoose.Schema({
     dateCreated: {
         type: Date,
         required: true
+    },
+    price : {
+        type: Number,
+        required: true
+    },
+    levelRequired: {
+        type: Number,
+        required: true
     }
 });
 

@@ -2,7 +2,8 @@
 
 var express = require('express'),
     router = express.Router(),
-    usersController = require('../controllers/users-controller'),
+    usersData = require('../data/data-users'),
+    usersController = require('../controllers/users-controller')(usersData),
     passport = require('passport');
 
 router
