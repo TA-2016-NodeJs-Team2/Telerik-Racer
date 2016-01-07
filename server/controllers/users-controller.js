@@ -25,7 +25,7 @@ module.exports = function (data) {
             }
 
             user.hashPassword = SHA256(user.password) + '';
-            user.role = User.getRoles()[0]; // regular
+            user.role = User.getRoles()[0]; // regular TODO: some global constants
             user.cars = [];
             user.money = 10000; // TODO: Constants
             user.dateRegistered = new Date();
@@ -43,20 +43,6 @@ module.exports = function (data) {
                         message: error.message
                     });
             });
-            /*dbUser.save(function (err, user) {
-                if (err) {
-                    res.status(400)
-                        .json({
-                            message: err.message
-                        });
-                    return;
-                }
-
-                res.status(201)
-                    .json({
-                        username: user.username
-                    });
-            });*/
         },
         login: function (req, res, next) {
             // Code duplicate !!
@@ -85,51 +71,6 @@ module.exports = function (data) {
                 res.status(error.status)
                     .json({message: error.message});
             });
-
-            /*User.findOne({username: user.username})
-                .exec(function (err, dbUser) {
-                    if (err) {
-                        // next(err);
-                        res.status(500)
-                            .json(err);
-                        return;
-                    }
-
-                    // user not found
-                    if (!dbUser) {
-                        res.status(404)
-                            .json({
-                                message: dbUser.username + ' not found!'
-                            });
-                        return;
-                    }
-
-                    // like SHA256(user.password).toString(); -> https://jsperf.com/tostring-vs-v3/2
-                    var hashedPassword = SHA256(user.password) + '';
-
-                    // password mismatch!
-                    if (dbUser.hashPassword !== hashedPassword) {
-                        res.status(404)
-                            .json({
-                                message: 'password mismatch'
-                            });
-                        return;
-                    }
-
-                    if (!dbUser.token) {
-                        dbUser.token = SHA256(dbUser.username + ' ' + dbUser.password) + '';
-                    }
-
-                    // TODO: if lastLogin data is more than 72 hours -> generate a new token
-
-                    dbUser.lastLogin = new Date();
-                    dbUser.save();
-
-                    res.json({
-                        username: dbUser.username,
-                        token: dbUser.token
-                    });
-                });*/
         },
         deleteUser: function (req, res, next) {
             if (!(req.body) || !(req.body.id)) {
@@ -146,7 +87,7 @@ module.exports = function (data) {
 
             // User should have role administrator.
             console.log(user.role);
-            console.log(User.getRoles()[2]);
+            console.log(User.getRoles()[2]); //TODO: some global constants
 
             if (user.role !== User.getRoles()[2]) {
                 res.status(401)
@@ -165,21 +106,6 @@ module.exports = function (data) {
                             message: err.message
                         });
                 });
-            /*User.remove({_id: id}, function (err, rawData) {
-                if (err) {
-                    res.status(400)
-                        .json({
-                            message: 'wrong id!'
-                        });
-                    return;
-                }
-
-                res.json({
-                    status: rawData.result.ok,
-                    documentsModified: rawData.result.n,
-                    message: rawData.result.n !== 0 ? 'removed!' : 'user not found'
-                });
-            });*/
         },
         allUsers: function (req, res, next) {
 
