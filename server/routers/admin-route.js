@@ -48,7 +48,8 @@ router
     })
     .get('/users', adminController.all)
     .get('/users/:id', adminController.details)
-    .delete('/users/:id', adminController.deleteUser);
+    .delete('/users/:id', adminController.deleteUser)
+    .put('/users/:id', adminController.updateUser);
 
 module.exports = function (app) {
     app.use('/api/admin/', passport.authenticate('bearer', {

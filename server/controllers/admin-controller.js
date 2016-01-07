@@ -15,15 +15,15 @@ module.exports = function (data) {
         details: function (req, res) {
             data.details(req.params.id)
                 .then(function (user) {
-                res.json(user);
-            }, function (err) {
-                res.status(400)
-                    .json({
-                        message: err.message
-                    });
-            });
+                    res.json(user);
+                }, function (err) {
+                    res.status(400)
+                        .json({
+                            message: err.message
+                        });
+                });
         },
-        deleteUser: function (req, res, next) {
+        deleteUser: function (req, res) {
             if (!(req.params.id)) {
                 res.status(400)
                     .json({
@@ -42,6 +42,26 @@ module.exports = function (data) {
                     res.status(400)
                         .json({
                             message: err.message
+                        });
+                });
+        },
+        updateUser: function (req, res) {
+            console.log(req.body);
+            if (!(req.body)) {
+                res.status(400)
+                    .json({
+                        message: 'you should provide a model to update!'
+                    });
+                return;
+            }
+
+            data.update(req.params.id, req.body)
+                .then(function (user) {
+                    res.json(user);
+                }, function (error) {
+                    res.status(400)
+                        .json({
+                            message: error.message
                         });
                 });
         }
