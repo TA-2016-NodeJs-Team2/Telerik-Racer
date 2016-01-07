@@ -77,6 +77,40 @@ module.exports = {
                 });
             });
         });
+    },
+    all: function (query) {
+        return new BBPromise(function (resolve, reject) {
+            User.find({})
+                .skip((query.page - 1) * query.size)
+                .limit(query.size)
+                .sort(query.by)
+                .select('role username level money')
+                .exec(function (err, users) {
+                    if (err) {
+                    	return reject(err);
+                    }
+
+                    resolve(users);
+                });
+        });
+    },
+    details: function (id) {
+        return new BBPromise(function (resolve, reject) {
+            User.findById(id)
+                .exec(function (err, user) {
+                    if (err) {
+                    	return reject(err);
+                    }
+
+                    if (!user) {
+                    	return reject({
+                            message: 'Not found'
+                        });
+                    }
+
+                    resolve(user);
+                });
+        });
     }
 };
 
