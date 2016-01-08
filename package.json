@@ -17,13 +17,14 @@
   },
   "homepage": "https://github.com/TA-2016-NodeJs-Team2/Telerik-Racer#readme",
   "dependencies": {
+    "bluebird": "^2.9.26",
     "body-parser": "^1.14.2",
+    "cookie-parser": "^1.4.0",
     "crypto-js": "^3.1.6",
     "express": "^4.13.3",
     "mongoose": "^4.3.4",
     "nodemon": "^1.8.1",
     "passport": "^0.3.2",
-    "passport-http-bearer": "^1.0.1",
-    "bluebird": "latest"
+    "passport-http-bearer": "^1.0.1"
   }
 }
