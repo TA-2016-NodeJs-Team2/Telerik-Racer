@@ -5,6 +5,7 @@ var mongoose = require('mongoose'),
 
 module.exports = function (data) {
     return {
+        //POST
         register: function (req, res) {
             var user = req.body;
 
@@ -81,6 +82,16 @@ module.exports = function (data) {
             req.logout();
             res.clearCookie('Authorization');
             res.send('cookie should be cleared!');
+        },
+        //GET
+        loginForm: function(req, res){
+            res.status(200);
+            res.send('This is a login form');
+        },
+
+        registerForm: function(req, res){
+            res.status(200);
+            res.send('This is a registration form');
         }
     };
 };
