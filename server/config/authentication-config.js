@@ -2,12 +2,13 @@
 
 // configuration about passport authentication
 let passport = require('passport'),
-    Strategy = require('passport-http-bearer'),
+    BearerStrategy = require('passport-http-bearer'),
     mongoose = require('mongoose'),
-    User = mongoose.model('User');
+    User = mongoose.model('User'),
+    CookieStrategy = require('./passport-cookie');
 
 // define a new strategy for authentication.
-passport.use(new Strategy(function (token, done) {
+passport.use(new BearerStrategy(function (token, done) {
     User.findOne({
         token: token
     }, function (err, user) {

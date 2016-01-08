@@ -1,8 +1,7 @@
 'use strict';
 var mongoose = require('mongoose'),
     User = mongoose.model('User'),
-    SHA256 = require('crypto-js/sha256'),
-    dateExt = require('../common/date-time-extensions');
+    SHA256 = require('crypto-js/sha256');
 
 module.exports = function (data) {
     return {
@@ -71,7 +70,7 @@ module.exports = function (data) {
                     var date = new Date();
                     date.setHours(date.getHours() + 24);
 
-                    res.cookie('Authentication', 'Bearer ' + user.token, {expires: date});
+                    res.cookie('Authorization', 'Bearer ' + user.token, {expires: date});
                     res.send(user);
                 }, function (error) {
                     res.status(error.status)
@@ -80,8 +79,8 @@ module.exports = function (data) {
         },
         logout: function (req, res) {
             req.logout();
-            res.clearCookie('Authentication');
-            res.send('');
+            res.clearCookie('Authorization');
+            res.send('cookie should be cleared!');
         }
     };
 };
