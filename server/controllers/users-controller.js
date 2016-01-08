@@ -1,7 +1,8 @@
 'use strict';
 var mongoose = require('mongoose'),
     User = mongoose.model('User'),
-    SHA256 = require('crypto-js/sha256');
+    SHA256 = require('crypto-js/sha256'),
+    dateExt = require('../common/date-time-extensions');
 
 module.exports = function (data) {
     return {
@@ -47,7 +48,6 @@ module.exports = function (data) {
         login: function (req, res) {
             // Code duplicate !!
             var user = req.body;
-
             if (!req.body) {
                 res.status(400)
                     .json({
@@ -67,8 +67,11 @@ module.exports = function (data) {
             //  http://expressjs.com/en/api.html#res.cookie
             data.login(user)
                 .then(function (user) {
-                    res.cookie('Authentication', 'Bearer ' + user.token, {expires: new Date(2017, 1, 8, 1, 15, 20)});
 
+                    var date = new Date();
+                    date.setHours(date.getHours() + 24);
+
+                    res.cookie('Authentication', 'Bearer ' + user.token, {expires: date});
                     res.send(user);
                 }, function (error) {
                     res.status(error.status)
