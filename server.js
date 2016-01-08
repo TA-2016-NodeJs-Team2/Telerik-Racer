@@ -3,14 +3,17 @@
 var express = require('express'),
     mongoose = require('mongoose'),
     bodyParser = require('body-parser'),
+    cookieParser = require('cookie-parser'),
     app = express(),
-    port = 9001,
+    port = process.env.PORT || 9001,
     connectionString = 'mongodb://localhost/telerik-racer';
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: true
 }));
+
+app.use(cookieParser());
 
 mongoose.connect(connectionString);
 
