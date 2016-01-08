@@ -7,7 +7,8 @@ var express = require('express'),
 
 router
     .post('/login', usersController.login)
-    .post('/register', usersController.register);
+    .post('/register', usersController.register)
+    .post('/logout', usersController.logout);
 
 module.exports = function (app) {
     app.use('/api/users', router);

@@ -67,12 +67,18 @@ module.exports = function (data) {
             //  http://expressjs.com/en/api.html#res.cookie
             data.login(user)
                 .then(function (user) {
-                    res.cookie('Authentication', 'Bearer ' + user.token, {expires: new Date(2016, 1, 8, 1, 15, 20)});
+                    res.cookie('Authentication', 'Bearer ' + user.token, {expires: new Date(2017, 1, 8, 1, 15, 20)});
+
                     res.send(user);
                 }, function (error) {
                     res.status(error.status)
                         .json({message: error.message});
                 });
+        },
+        logout: function (req, res) {
+            req.logout();
+            res.clearCookie('Authentication');
+            res.send('');
         }
     };
 };
