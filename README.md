@@ -33,8 +33,8 @@
   
 * Map
   * name {`String`}
-  * prices {`[Number]`} _money which users will earn after race is finished_
-  * respectGiven {`[Number]`} _Same as prices, and user can gain levels_
+  * prizes {`[Number]`} _money which users will earn after race is finished_
+  * respectGiven {`[Number]`} _Same as prizes, and user can gain levels_
   * damageToTake {`Number`} _Damage to take from each_
   
 * Job
@@ -83,7 +83,7 @@
     * `POST` __/add__  adds a map
     * `DELETE` __/:id/remove__ (administrator only) _if time is enough will be implemented_
 * __profile/__ (private)
-    * `GET` __/__ user info
+    * `GET` __/__ user info 
     * `GET` __/cars__ user cars
     * `GET` __/cars/:model__ car details where user should have an option to repair the car, if any damage is taken
     * `PUT` __/cars/:model/repair__ if user has enough money.
