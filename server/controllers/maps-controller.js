@@ -1,5 +1,7 @@
 'use strict';
 
+var constants = require('../common/constants');
+
 module.exports = function (maps) {
     return {
         getAll: function (req, res) {
@@ -14,8 +16,9 @@ module.exports = function (maps) {
                 });
         },
         getDetails: function (req, res) {
-            //Argument passed in must be a single String of 12 bytes or a string of 24 hex characters
-            if (req.params.id.length !== 24) {
+
+            // Argument passed in must be a single String of 12 bytes or a string of 24 hex characters
+            if (!constants.objectIdPattern.test(req.params.id)) {
                 res.status(400)
                     .json({
                         message: 'This is not an Id'
@@ -45,28 +48,33 @@ module.exports = function (maps) {
             car.prizes = [];
             car.respectGiven = [];
 
-            // TODO: Constants
-            var minLength = 5;
+            var minLength = constants.models.minLengthPrizes;
 
-            // TODO: and sort them, or check to be sorted
             for (var i = 1; i <= minLength; i += 1) {
-                var price = req.body['prize' + i];
+                var prize = req.body['prize' + i];
                 var respect = req.body['respect' + i];
-                if (price && !isNaN(price)) {
-                    car.prizes.push(price);
+                if (prize && !isNaN(prize) && (+prize >= 0)) {
+                    car.prizes.push(+prize);
                 }
 
-                if (respect && !isNaN(respect)) {
-                    car.respectGiven.push(respect);
+                if (respect && !isNaN(respect) && (+respect >= 0)) {
+                    car.respectGiven.push(+respect);
                 }
             }
 
             if (car.prizes.length !== minLength ||
                 car.respectGiven.length !== minLength) {
                 res.status(400)
-                    .json("Prizes and respects should be " + minLength);
+                    .json('Prizes and respects should be ' + minLength + ' positive numbers!');
                 return;
             }
+
+            car.prizes.sort(function (a, b) {
+                return a < b;
+            });
+            car.respectGiven.sort(function (a, b) {
+                return a < b;
+            });
 
             maps.save(car)
                 .then(function (responseCar) {

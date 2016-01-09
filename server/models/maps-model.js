@@ -1,17 +1,26 @@
-var mongoose = require('mongoose');
+var mongoose = require('mongoose'),
+    constants = require('../common/constants');
 
 var schema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
-        minlength: 3,
+        minlength: constants.models.minLength,
         index: {
             unique: true
         }
     },
     prizes: {
         type: [Number],
-        required: true
+        required: true,
+        validate: {
+            validator: function (val) {
+                'use strict';
+
+                return val.length === constants.models.minLengthPrizes;
+            },
+            message: 'Should have' + constants.models.minLengthPrizes + 'prizes!'
+        }
     },
     respectGiven: {
         type: [Number]
@@ -24,5 +33,4 @@ var schema = new mongoose.Schema({
     }
 });
 
-// TODO: seed initial maps
 mongoose.model('Map', schema);

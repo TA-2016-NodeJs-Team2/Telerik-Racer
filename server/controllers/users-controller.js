@@ -1,7 +1,8 @@
 'use strict';
 var mongoose = require('mongoose'),
     User = mongoose.model('User'),
-    SHA256 = require('crypto-js/sha256');
+    SHA256 = require('crypto-js/sha256'),
+    constants = require('../common/constants');
 
 module.exports = function (data) {
     return {
@@ -26,12 +27,12 @@ module.exports = function (data) {
             }
 
             user.hashPassword = SHA256(user.password) + '';
-            user.role = User.getRoles()[0]; // regular TODO: some global constants
+            user.role = constants.roles.regular;
             user.cars = [];
-            user.money = 10000; // TODO: Constants
+            user.money = constants.models.user.defaultMoney;
             user.dateRegistered = new Date();
-            user.level = 1;
-            user.respect = 0;
+            user.level = constants.models.user.defaultLevel;
+            user.respect = constants.models.user.defaultRespect;
 
             data.save(user).then(function (readyUser) {
                 res.status(201)
@@ -69,7 +70,7 @@ module.exports = function (data) {
                 .then(function (user) {
 
                     var date = new Date();
-                    date.setHours(date.getHours() + 24);
+                    date.setHours(date.getHours() + constants.cookieHours);
 
                     res.cookie('Authorization', 'Bearer ' + user.token, {expires: date});
                     res.send(user);
@@ -83,13 +84,14 @@ module.exports = function (data) {
             res.clearCookie('Authorization');
             res.send('cookie should be cleared!');
         },
+
         //GET
-        loginForm: function(req, res){
+        loginForm: function (req, res) {
             res.status(200);
             res.send('This is a login form');
         },
 
-        registerForm: function(req, res){
+        registerForm: function (req, res) {
             res.status(200);
             res.send('This is a registration form');
         }
