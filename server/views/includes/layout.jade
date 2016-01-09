@@ -4,5 +4,25 @@ html
         title Telerik-Racer
         link(rel="stylesheet" href="/css/bootstrap.css")
     body
+        header
+            nav.navbar.navbar-default.navbar-fixed-top
+                .container
+                    .navbar-header
+                        a.navbar-brand(href="/") TA Racer
+                    .navbar-collapse.collapse
+                        ul.nav.navbar-nav
+                            li
+                                a(href="/races/") Races
+                            li
+                                a(href="/users/all") All users
+        br
+        br
+        br
+
         block main-content
-        include scripts
+
+    include scripts
+
+    footer
+        p.text-center
+            | &copy; Telerik Academy 2016
