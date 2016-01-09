@@ -1,9 +1,10 @@
-var mongoose = require('mongoose');
+var mongoose = require('mongoose'),
+    constants = require('../common/constants');
 
 var userSchema = new mongoose.Schema({
     username: {
         type: String,
-        minlength: 3,
+        minlength: constants.models.minLength,
         required: true,
         index: {
             unique: true
@@ -18,13 +19,13 @@ var userSchema = new mongoose.Schema({
         }
     },
     hashPassword: {
-        minlength: 10,
+        minlength: constants.models.minLengthPass,
         type: String,
         required: true
     },
     token: {
         type: String,
-        minlength: 10
+        minlength: constants.models.minLengthPass
     },
     role: {
         type: String,

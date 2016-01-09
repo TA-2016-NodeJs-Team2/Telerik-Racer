@@ -1,5 +1,7 @@
 'use strict';
 
+var constants = require('../common/constants');
+
 module.exports = function (maps) {
     return {
         getAll: function (req, res) {
@@ -14,8 +16,9 @@ module.exports = function (maps) {
                 });
         },
         getDetails: function (req, res) {
-            //Argument passed in must be a single String of 12 bytes or a string of 24 hex characters
-            if (req.params.id.length !== 24) {
+
+            // Argument passed in must be a single String of 12 bytes or a string of 24 hex characters
+            if (!constants.objectIdPattern.test(req.params.id)) {
                 res.status(400)
                     .json({
                         message: 'This is not an Id'
@@ -46,7 +49,7 @@ module.exports = function (maps) {
             car.respectGiven = [];
 
             // TODO: Constants
-            var minLength = 5;
+            var minLength = constants.models.minLengthPrizes;
 
             // TODO: and sort them, or check to be sorted
             for (var i = 1; i <= minLength; i += 1) {

@@ -4,32 +4,35 @@ var express = require('express'),
     router = express.Router(),
     userData = require('../data/data-users'),
     adminController = require('../controllers/admin-controller')(userData),
-    passport = require('passport');
+    passport = require('passport'),
+    constants = require('../common/constants');
 
 // middleware
 router.use(function (req, res, next) {
-    // TODO: Global constant for roles
-    if (req.user.role === 'administrator') {
+    if (req.user.role === constants.roles.administrator) {
 
-        // set header in middleware
-        req.headers['X-AdminAuth'] = 'whatEver';
-        next();
-        return;
+        // set header in middleware, then it can be verified in the controller
+        req.headers[constants.securityHeader.name] = constants.securityHeader.value;
+        return next();
     }
 
-    // TODO: implement some route
+    // TODO: implement some view permissions required
     res.redirect('/login');
 });
 
 // middleware to set query params
 router.use('/users', function (req, res, next) {
-    // Global Constants
-    // TODO: validate sort to be one of the possible fields
-    req.query.by = req.query.by || 'username';
-    req.query.by = (req.query.sort === 'desc' ? '-' : '') + req.query.by;
-    req.query.page = req.query.page || 1;
 
-    req.query.size = 10;
+    // check from possible fields for sorting
+    var byField = constants.query.users.possibleFields.find(function (elem) {
+            return elem === req.query.by;
+    });
+
+    req.query.by = byField || constants.query.users.by;
+    req.query.by = (req.query.sort === 'desc' ? '-' : '') + req.query.by;
+    req.query.page = req.query.page || constants.query.defaultPage;
+
+    req.query.size = constants.query.defaultSize;
     next();
 });
 
@@ -38,7 +41,7 @@ router
         // should render some view
 
         // get header that was set in middleware
-        if (!(req.headers['X-AdminAuth'])) {
+        if (req.headers[constants.securityHeader.name] !== constants.securityHeader.value) {
             res.redirect('/login');
             return;
         }
@@ -53,6 +56,7 @@ router
 
 module.exports = function (app) {
     app.use('/api/admin/', passport.authenticate('bearer', {
+        failureRedirect: '/home',
         session: false
     }), router);
 };
