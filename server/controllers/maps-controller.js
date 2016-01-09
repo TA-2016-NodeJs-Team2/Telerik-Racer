@@ -48,28 +48,33 @@ module.exports = function (maps) {
             car.prizes = [];
             car.respectGiven = [];
 
-            // TODO: Constants
             var minLength = constants.models.minLengthPrizes;
 
-            // TODO: and sort them, or check to be sorted
             for (var i = 1; i <= minLength; i += 1) {
-                var price = req.body['prize' + i];
+                var prize = req.body['prize' + i];
                 var respect = req.body['respect' + i];
-                if (price && !isNaN(price)) {
-                    car.prizes.push(price);
+                if (prize && !isNaN(prize) && (+prize >= 0)) {
+                    car.prizes.push(+prize);
                 }
 
-                if (respect && !isNaN(respect)) {
-                    car.respectGiven.push(respect);
+                if (respect && !isNaN(respect) && (+respect >= 0)) {
+                    car.respectGiven.push(+respect);
                 }
             }
 
             if (car.prizes.length !== minLength ||
                 car.respectGiven.length !== minLength) {
                 res.status(400)
-                    .json("Prizes and respects should be " + minLength);
+                    .json('Prizes and respects should be ' + minLength + ' positive numbers!');
                 return;
             }
+
+            car.prizes.sort(function (a, b) {
+                return a < b;
+            });
+            car.respectGiven.sort(function (a, b) {
+                return a < b;
+            });
 
             maps.save(car)
                 .then(function (responseCar) {
