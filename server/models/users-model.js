@@ -31,7 +31,9 @@ var userSchema = new mongoose.Schema({
         type: String,
         enum: [constants.roles.administrator, constants.roles.moderator, constants.roles.regular]
     },
-    cars: [Object],
+    cars: {
+        type: [mongoose.Schema.Types.Mixed]
+    },
     money: {
         type: Number,
         required: true
