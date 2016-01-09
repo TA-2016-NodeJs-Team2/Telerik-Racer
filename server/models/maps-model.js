@@ -2,10 +2,14 @@ var mongoose = require('mongoose');
 
 var schema = new mongoose.Schema({
     name: {
-        type: Date,
-        required: true
+        type: String,
+        required: true,
+        minlength: 3,
+        index: {
+            unique: true
+        }
     },
-    prices: {
+    prizes: {
         type: [Number],
         required: true
     },
@@ -14,6 +18,9 @@ var schema = new mongoose.Schema({
     },
     damageToTake: {
         type: Number
+    },
+    date: {
+        type: Date
     }
 });
 

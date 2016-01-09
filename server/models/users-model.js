@@ -57,8 +57,6 @@ var userSchema = new mongoose.Schema({
     }
 });
 
-// TODO: expiresTokenDate
-
 userSchema.statics.getRoles = function () {
     'use strict';
     return 'regular moderator administrator'.split(' ');
