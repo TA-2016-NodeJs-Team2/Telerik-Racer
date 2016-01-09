@@ -33,5 +33,4 @@ var schema = new mongoose.Schema({
     }
 });
 
-// TODO: seed initial maps
 mongoose.model('Map', schema);

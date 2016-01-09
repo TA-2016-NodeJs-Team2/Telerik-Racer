@@ -18,6 +18,7 @@ app.use(cookieParser());
 mongoose.connect(connectionString);
 
 require('./server/models/')();
+require('./server/init');
 require('./server/config/authentication-config');
 require('./server/routers')(app);
 
