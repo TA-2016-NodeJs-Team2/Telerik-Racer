@@ -93,7 +93,7 @@ module.exports = function (data) {
 
         registerForm: function (req, res) {
             res.status(200);
-            res.send('This is a registration form');
+            res.render('register');
         }
     };
 };
