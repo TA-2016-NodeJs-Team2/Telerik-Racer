@@ -23,7 +23,7 @@ mongoose.connect(connectionString);
 
 require('./server/models/')();
 require('./server/init');
-require('./server/config/authentication-config');
+require('./server/config/authentication-config')(app);
 require('./server/routers')(app);
 
 
