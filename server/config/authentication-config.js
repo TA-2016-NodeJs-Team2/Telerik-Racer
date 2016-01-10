@@ -8,7 +8,7 @@ let passport = require('passport'),
     CookieStrategy = require('./passport-cookie');
 
 // define a new strategy for authentication.
-passport.use(new BearerStrategy(function (token, done) {
+passport.use(new CookieStrategy(function (token, done) {
     User.findOne({
         token: token
     }, function (err, user) {

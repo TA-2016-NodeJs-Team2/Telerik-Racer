@@ -55,7 +55,7 @@ router
     .put('/users/:id', adminController.updateUser);
 
 module.exports = function (app) {
-    app.use('/api/admin/', passport.authenticate('bearer', {
+    app.use('/api/admin/', passport.authenticate('cookie', {
         failureRedirect: '/home',
         session: false
     }), router);

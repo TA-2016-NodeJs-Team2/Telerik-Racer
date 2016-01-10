@@ -12,7 +12,7 @@ router
     .get('/all', racesController.getAll);
 
 module.exports = function (app) {
-    app.use('/races', passport.authenticate('bearer', {
+    app.use('/races', passport.authenticate('cookie', {
         failureRedirect: '/home',
         session: false
     }), router);
