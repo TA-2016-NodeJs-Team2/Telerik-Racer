@@ -5,10 +5,10 @@ var mongoose = require('mongoose'),
     BBPromise = require('bluebird');
 
 module.exports = {
-    getCarById: function (id) {
+    details: function (id) {
         // TODO: Find a specific car by ObjectId
         return new BBPromise(function (resolve, reject) {
-            Car.find({_id: id})
+            Car.findById(id)
                 .exec(function (err, car) {
                     if (err) {
                         return reject(err);
@@ -17,10 +17,19 @@ module.exports = {
                 });
         });
     },
-    getAllCars: function () {
-        // TODO: See all player's cars.
+    all: function (skip, take, sort, by) {
         return new BBPromise(function (resolve, reject) {
+            skip = skip || 1;
+            take = take || 10;
+            sort = sort || 'asc';
+            by = by || 'price';
+            var sortOpts = {};
+            sortOpts[by] = sort;
+
             Car.find()
+                .skip((skip - 1) * take)
+                .limit(take * 1)
+                .sort(sortOpts)
                 .exec(function (err, cars) {
                     if (err) {
                         return reject(err);
@@ -29,12 +38,11 @@ module.exports = {
                 });
         });
     },
-    addCar: function (newCar) {
-        // TODO: When player chooses a car.
+    save: function (newCar) {
         return new BBPromise(function (resolve, reject) {
-            var dbUser = new Car(newCar);
+            var dbCar = new Car(newCar);
 
-            dbUser.save(function (err, car) {
+            dbCar.save(function (err, car) {
                 if (err) {
                     return reject(err);
                 }
@@ -42,7 +50,7 @@ module.exports = {
             });
         });
     },
-    removeCar: function (id) {
+    remove: function (id) {
         // TODO: When player dismisses a car.
         return new BBPromise(function (resolve, reject) {
             Car.remove({_id: id}, function (err, rawData) {

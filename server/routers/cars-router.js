@@ -6,11 +6,15 @@ var express = require('express'),
 
 // TODO: Add more routes.
 router
-    .get('/{id}', carsController.getCarById)
-    .post('/delete', passport.authenticate('cookie', {
+    .get('/all', carsController.getAllCars)
+    .get('/:id', carsController.getCarById)
+    .post('/:id/buy',passport.authenticate('bearer', {
+        session: false
+    }), carsController.buyCar)
+    .post('/delete', passport.authenticate('bearer', {
         session: false
     }), carsController.removeCar);
 
 module.exports = function (app) {
-    app.use('/api/cars', router);
+    app.use('/shop/cars', router);
 };
