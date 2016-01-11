@@ -64,8 +64,8 @@ module.exports = function (carData) {
                 .then(function (car) {
                     User.findById(currUserId)
                         .exec(function (err, user) {
-                            if(err) throw err;
-                            
+                            if (err) throw err;
+
                             user.cars.push(car);
                             user.save();
                         });
