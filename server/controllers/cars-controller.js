@@ -27,7 +27,7 @@ module.exports = function (carData) {
                 });
         },
         getAllCars: function (req, res, next) {
-            carData.all()
+            carData.all(req.query.skip, req.query.take, req.query.sort, req.query.by)
                 .then(function (cars) {
                     res.json(cars);
                 }, function (error) {
@@ -35,19 +35,46 @@ module.exports = function (carData) {
                         .json({message: error.message});
                 });
         },
-        getAllCarModels: function (req, res, next) {
-            carData.all()
-                .then(function (cars) {
-                    var carModels = [];
-                    for (let i = 0; i < cars.count; i += 1) {
-                        carModels.push(cars[i].model);
-                    }
+        // TODO: Decide if we need this.
+        //getAllCarModels: function (req, res, next) {
+        //    console.log(req.query);
+        //    carData.all(req.query.skip, req.query.take, req.query.sort, req.query.by)
+        //        .then(function (cars) {
+        //            var carModels = [];
+        //            for (let i = 0; i < cars.count; i += 1) {
+        //                carModels.push(cars[i].model);
+        //            }
+        //
+        //            res.json(carModels);
+        //        }, function (error) {
+        //            res.status(error.status)
+        //                .json({message: error.message});
+        //        })
+        //},
+        buyCar: function (req, res, next) {
+            var user = req.user;
+            if (!constants.objectIdPattern.test(req.params.id)) {
+                res.status(400)
+                    .json({
+                        message: 'This is not an Id'
+                    });
+                return;
+            }
+            carData.details(req.params.id)
+                .then(function (car) {
+                    User.findById(req, user._id)
+                        .exec(function (err, user) {
 
-                    res.json(carModels);
+                            user.cars.push(car);
+                            user.save();
+                        });
+
+                    res.json(car);
                 }, function (error) {
+                    console.log(error);
                     res.status(error.status)
                         .json({message: error.message});
-                })
+                });
         },
         addCar: function (req, res, next) {
             var car = req.body;

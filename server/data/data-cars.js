@@ -17,9 +17,19 @@ module.exports = {
                 });
         });
     },
-    all: function () {
+    all: function (skip, take, sort, by) {
         return new BBPromise(function (resolve, reject) {
+            skip = skip || 1;
+            take = take || 10;
+            sort = sort || 'asc';
+            by = by || 'price';
+            var sortOpts = {};
+            sortOpts[by] = sort;
+
             Car.find()
+                .skip((skip - 1) * take)
+                .limit(take * 1)
+                .sort(sortOpts)
                 .exec(function (err, cars) {
                     if (err) {
                         return reject(err);
