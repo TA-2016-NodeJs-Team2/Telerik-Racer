@@ -2,16 +2,13 @@
 
 var mongoose = require('mongoose'),
     Car = mongoose.model('Car'),
-    ObjectId = mongoose.Types.ObjectId,
     BBPromise = require('bluebird');
 
 module.exports = {
     details: function (id) {
         // TODO: Find a specific car by ObjectId
         return new BBPromise(function (resolve, reject) {
-            console.log(id);
-            var objId = new ObjectId(id);
-            Car.find({_id: objId})
+            Car.find({_id: id})
                 .exec(function (err, car) {
                     if (err) {
                         return reject(err);

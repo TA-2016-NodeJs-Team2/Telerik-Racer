@@ -4,14 +4,15 @@ var mongoose = require('mongoose'),
     url = require('url'),
     Car = mongoose.model('Car'),
     User = mongoose.model('User'),
+    ObjectId = mongoose.Types.ObjectId,
     dateExt = require('../common/date-time-extensions');
 
 module.exports = function (carData) {
     return {
         getCarById: function (req, res, next) {
             var id = req.params.id;
-            console.log(id);
-            carData.details(id)
+            var objId = new ObjectId(id);
+            carData.details(objId)
                 .then(function (car) {
                     res.json(car);
                 }, function (error) {
