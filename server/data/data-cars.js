@@ -18,7 +18,6 @@ module.exports = {
         });
     },
     all: function () {
-        // TODO: See all player's cars.
         return new BBPromise(function (resolve, reject) {
             Car.find()
                 .exec(function (err, cars) {
@@ -30,11 +29,10 @@ module.exports = {
         });
     },
     save: function (newCar) {
-        // TODO: When player chooses a car.
         return new BBPromise(function (resolve, reject) {
-            var dbUser = new Car(newCar);
+            var dbCar = new Car(newCar);
 
-            dbUser.save(function (err, car) {
+            dbCar.save(function (err, car) {
                 if (err) {
                     return reject(err);
                 }

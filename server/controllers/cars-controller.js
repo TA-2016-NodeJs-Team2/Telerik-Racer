@@ -49,7 +49,6 @@ module.exports = function (carData) {
                         .json({message: error.message});
                 })
         },
-        // TODO: Decide whether we use two collections or one for cars.
         addCar: function (req, res, next) {
             var car = req.body;
             var user = req.user;
@@ -75,9 +74,7 @@ module.exports = function (carData) {
             //car.turbo = 1;
             //car.damage = 0;
             car.dateCreated = dateExt.getUTCDate(new Date());
-            //// TODO: Change according to model.
             //car.price = 1;
-            //// TODO: Change according to model.
             //car.levelRequired = 1;
 
             carData.save(car).then(function (readyCar) {
