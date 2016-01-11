@@ -9,7 +9,7 @@ module.exports = function () {
             res.render('home',
                 {
                     message: "Friendly message for users - sup' ninjas?",
-                    user: {
+                    auser: {
                         name: currentUser ? currentUser.username : undefined,
                         authorized: req.app.locals.user
                     }

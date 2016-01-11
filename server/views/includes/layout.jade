@@ -1,8 +1,9 @@
-doctype
+doctype html
 html
     head
         title Telerik-Racer
-        link(rel="stylesheet" href="/css/bootstrap.css")
+        link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css')
+        link(rel='stylesheet', href='https://bootswatch.com/spacelab/bootstrap.min.css')
     body
         header
             nav.navbar.navbar-default.navbar-fixed-top
@@ -14,17 +15,49 @@ html
                             li
                                 a(href="/races/all") Races
                             li
-                                a(href="api/users/register") Register
-                            li
-                                a(href="api/users/login") Login
+                                a(href="/shop/cars") Cars
+                            if user && (user.role === 'administrator' || user.role === 'moderator')
+                                li
+                                    a(href="#") Maps
+                            if user && user.role === 'administrator'
+                                li.dropdown
+                                    a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='false')
+                                        = 'Admin Panel'
+                                        span.caret
+                                    ul.dropdown-menu
+                                        li
+                                            a(href='#') Users
+                                        li
+                                            a(href='#') Remove Map
+                        ul.nav.navbar-nav.navbar-right
+                            if !user
+                                li
+                                    a(href="api/users/register") Register
+                                li
+                                    a(href="api/users/login") Login
+                            else
+                                li.dropdown
+                                    a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='false')
+                                        = user.username
+                                        span.caret
+                                    ul.dropdown-menu
+                                        li
+                                            a(href='#') Action
+                                        li
+                                            a(href='#') Another action
+                                        li.divider(role='separator')
+                                        li
+                                            form.navbar-form.navbar-left(action='api/users/logout', method='post')
+                                                button(type='submit') Logout
+
         br
         br
         br
 
         block main-content
 
-    include scripts
+        footer
+            p.text-center
+                | &copy; Telerik Academy 2016
 
-    footer
-        p.text-center
-            | &copy; Telerik Academy 2016
+        include scripts
