@@ -1,0 +1,15 @@
+extends includes/layout
+block main-content
+    div(class="container")
+        div(class='row')
+            div(class="col-md-12")
+                if auser.name
+                    h3 Lets ride, #{auser.name}!
+                else
+                    h3 That's how we race! Go get a registration and let's see what you're made of!
+                ul
+                    li
+                        a(href="/races/all") See all existing races
+                    if auser.name
+                        li
+                            a(href="/races/add") Create new race
