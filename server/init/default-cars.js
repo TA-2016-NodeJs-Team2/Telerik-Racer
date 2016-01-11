@@ -25,7 +25,7 @@ Car.count({})
                     model: 'Ford Mustang',
                     wheelsLevel: 1,
                     engineLevel: 2,
-                    turbo: 15,
+                    turbo: 10,
                     damage: 0,
                     dateCreated: new Date(),
                     levelRequired: 1,
@@ -38,7 +38,7 @@ Car.count({})
                     model: 'Dodge Coronet',
                     wheelsLevel: 2,
                     engineLevel: 2,
-                    turbo: 0,
+                    turbo: 10,
                     damage: 0,
                     dateCreated: new Date(),
                     levelRequired: 1,
@@ -63,7 +63,7 @@ Car.count({})
                 new Car({
                     model: 'Dodge Charger V10',
                     wheelsLevel: 3,
-                    engineLevel: 1,
+                    engineLevel: 2,
                     turbo: 30,
                     damage: 0,
                     dateCreated: new Date(),
@@ -114,7 +114,7 @@ Car.count({})
             defaultCars.push(
                 new Car({
                     model: 'Chevrolet Corvette Stingray NEW',
-                    wheelsLevel: 6,
+                    wheelsLevel: 5,
                     engineLevel: 3,
                     turbo: 60,
                     damage: 0,
