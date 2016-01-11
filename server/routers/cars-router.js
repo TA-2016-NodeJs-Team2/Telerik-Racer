@@ -7,7 +7,7 @@ var express = require('express'),
 // TODO: Add more routes.
 router
     .get('/{id}', carsController.getCarById)
-    .post('/delete', passport.authenticate('bearer', {
+    .post('/delete', passport.authenticate('cookie', {
         session: false
     }), carsController.removeCar);
 
