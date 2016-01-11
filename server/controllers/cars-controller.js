@@ -1,6 +1,7 @@
 'use strict';
 
 var mongoose = require('mongoose'),
+    url = require('url'),
     Car = mongoose.model('Car'),
     User = mongoose.model('User'),
     dateExt = require('../common/date-time-extensions');
@@ -8,29 +9,36 @@ var mongoose = require('mongoose'),
 module.exports = function (carData) {
     return {
         getCarById: function (req, res, next) {
-            var id = req.body.id;
-            carData.getCarById(id)
+            var id = req.params.id;
+            console.log(id);
+            carData.details(id)
                 .then(function (car) {
                     res.json(car);
                 }, function (error) {
-                    res.status(error.status)
-                        .json({message: error.message});
-                });
-        },
-        getAllCars: function (req, res, next) {
-            carData.getAllCars()
-                .then(function (cars) {
-                    res.json(cars);
-                }, function (error) {
-                    res.status(error.status)
-                        .json({message: error.message});
-                });
-        },
-        getAllCarModels: function (req, res, next) {
-            carData.getAllCarModels()
-                .then(function (carModels) {
+                    console.log(error);
+            res.status(error.status)
+                .json({message: error.message});
+        });
+},
+getAllCars: function (req, res, next) {
+    carData.all()
+        .then(function (cars) {
+            res.json(cars);
+        }, function (error) {
+            res.status(error.status)
+                .json({message: error.message});
+        });
+},
+getAllCarModels: function (req, res, next) {
+    carData.all()
+        .then(function (cars) {
+                    var carModels = [];
+                    for(let i = 0; i < cars.count; i+=1){
+                        carModels.push(cars[i].model);
+                    }
+
                     res.json(carModels);
-                }, function (err) {
+                }, function (error) {
                     res.status(error.status)
                         .json({message: error.message});
                 })

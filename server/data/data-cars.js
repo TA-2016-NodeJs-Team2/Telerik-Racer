@@ -2,13 +2,16 @@
 
 var mongoose = require('mongoose'),
     Car = mongoose.model('Car'),
+    ObjectId = mongoose.Types.ObjectId,
     BBPromise = require('bluebird');
 
 module.exports = {
-    getCarById: function (id) {
+    details: function (id) {
         // TODO: Find a specific car by ObjectId
         return new BBPromise(function (resolve, reject) {
-            Car.find({_id: id})
+            console.log(id);
+            var objId = new ObjectId(id);
+            Car.find({_id: objId})
                 .exec(function (err, car) {
                     if (err) {
                         return reject(err);
@@ -17,7 +20,7 @@ module.exports = {
                 });
         });
     },
-    getAllCars: function () {
+    all: function () {
         // TODO: See all player's cars.
         return new BBPromise(function (resolve, reject) {
             Car.find()
@@ -29,7 +32,7 @@ module.exports = {
                 });
         });
     },
-    addCar: function (newCar) {
+    save: function (newCar) {
         // TODO: When player chooses a car.
         return new BBPromise(function (resolve, reject) {
             var dbUser = new Car(newCar);
@@ -42,7 +45,7 @@ module.exports = {
             });
         });
     },
-    removeCar: function (id) {
+    remove: function (id) {
         // TODO: When player dismisses a car.
         return new BBPromise(function (resolve, reject) {
             Car.remove({_id: id}, function (err, rawData) {
