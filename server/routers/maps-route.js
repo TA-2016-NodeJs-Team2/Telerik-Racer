@@ -47,7 +47,7 @@ router.get('/all', mapsController.getAll)
     });
 
 module.exports = function (app) {
-    app.use('/maps', passport.authenticate('bearer', {
+    app.use('/maps', passport.authenticate('cookie', {
         failureRedirect: '/home',
         session: false
     }), router);

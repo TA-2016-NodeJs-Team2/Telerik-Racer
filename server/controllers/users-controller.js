@@ -88,12 +88,12 @@ module.exports = function (data) {
         //GET
         loginForm: function (req, res) {
             res.status(200);
-            res.send('This is a login form');
+            res.render('login');
         },
 
         registerForm: function (req, res) {
             res.status(200);
-            res.send('This is a registration form');
+            res.render('register');
         }
     };
 };
