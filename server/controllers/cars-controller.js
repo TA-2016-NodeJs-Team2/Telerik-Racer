@@ -52,7 +52,7 @@ module.exports = function (carData) {
         //        })
         //},
         buyCar: function (req, res, next) {
-            var user = req.user;
+            var currUserId = req.user._id;
             if (!constants.objectIdPattern.test(req.params.id)) {
                 res.status(400)
                     .json({
@@ -62,9 +62,11 @@ module.exports = function (carData) {
             }
             carData.details(req.params.id)
                 .then(function (car) {
-                    User.findById(req, user._id)
+                    User.findById(currUserId)
                         .exec(function (err, user) {
-
+                            if(err) throw err;
+                            console.log(user.cars);
+                            console.log(car);
                             user.cars.push(car);
                             user.save();
                         });

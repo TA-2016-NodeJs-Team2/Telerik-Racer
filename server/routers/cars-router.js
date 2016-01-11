@@ -8,7 +8,9 @@ var express = require('express'),
 router
     .get('/all', carsController.getAllCars)
     .get('/:id', carsController.getCarById)
-    .post('/:id/buy', carsController.buyCar)
+    .post('/:id/buy',passport.authenticate('bearer', {
+        session: false
+    }), carsController.buyCar)
     .post('/delete', passport.authenticate('bearer', {
         session: false
     }), carsController.removeCar);

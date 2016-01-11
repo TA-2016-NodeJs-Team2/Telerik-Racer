@@ -8,7 +8,7 @@ module.exports = {
     details: function (id) {
         // TODO: Find a specific car by ObjectId
         return new BBPromise(function (resolve, reject) {
-            Car.find({_id: id})
+            Car.findById(id)
                 .exec(function (err, car) {
                     if (err) {
                         return reject(err);
