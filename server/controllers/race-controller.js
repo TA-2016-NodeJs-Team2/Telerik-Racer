@@ -2,33 +2,50 @@
 
 var constants = require('../common/constants');
 
-module.exports = function (races) {
+module.exports = function (racesData) {
     return {
-        getAll: function (req, res) {
-            races.all(req.query)
-                .then(function (resRaces) {
-                    res.json(resRaces);
+        default: function (req, res) {
+            var currentUser = req.app.locals.user;
+            res.status(200);
+            res.render('races', {
+                auser: {
+                    name: currentUser ? currentUser.username : undefined,
+                    authorized: req.app.locals.user
+                }
+            });
+        },
+        createRaceRender: function (req, res) {
+            var currentUser = req.app.locals.user;
+
+            if (!currentUser) {
+                res.redirect('/api/users/login');
+            }
+
+            var mapsData = require('../data/data-maps');
+            mapsData.getAllAsJson()
+                .then(function (responseMaps) {
+                    res.status(200);
+                    res.render('races-add', {
+                        maps: responseMaps,
+                        cars: currentUser.cars
+                    })
                 }, function (err) {
                     res.status(err.status || 400)
                         .json({
                             message: err.message
                         });
                 });
-        }
-/*        getDetails: function (req, res) {
 
-            // Argument passed in must be a single String of 12 bytes or a string of 24 hex characters
-            if (!constants.objectIdPattern.test(req.params.id)) {
-                res.status(400)
-                    .json({
-                        message: 'This is not an Id'
-                    });
-                return;
-            }
-
-            maps.details(req.params.id)
-                .then(function (responseMap) {
-                    res.json(responseMap);
+        },
+        listAllRender: function (req, res) {
+            var racesFromDb = racesData
+                .all(req.query)
+                .then(function (responseRaces) {
+                    res.status(200);
+                    res.render('races-all',
+                        {
+                            races: responseRaces
+                        });
                 }, function (err) {
                     res.status(err.status || 400)
                         .json({
@@ -36,69 +53,30 @@ module.exports = function (races) {
                         });
                 });
         },
-        add: function (req, res) {
+        createRaceAction: function (req, res) {
+            var currentUser = req.app.locals.user;
+            if (!currentUser) {
+                res.status(400)
+                    .json('You are not authorized');
+            }
             if (!req.body) {
                 res.status(400)
-                    .json('Please provide a car!');
+                    .json('Please provide a good data!');
             }
 
-            var car = req.body;
-            car.date = new Date();
+            var users = [];
+            users.push(currentUser.username);
 
-            car.prizes = [];
-            car.respectGiven = [];
+            var raceToBeAdded = {
+                dateCreated: Date.now(),
+                users: users,
+                status: 'Waiting for opponents',
+                map: 'Donno'
+            };
 
-            var minLength = constants.models.minLengthPrizes;
-
-            for (var i = 1; i <= minLength; i += 1) {
-                var prize = req.body['prize' + i];
-                var respect = req.body['respect' + i];
-                if (prize && !isNaN(prize) && (+prize >= 0)) {
-                    car.prizes.push(+prize);
-                }
-
-                if (respect && !isNaN(respect) && (+respect >= 0)) {
-                    car.respectGiven.push(+respect);
-                }
-            }
-
-            if (car.prizes.length !== minLength ||
-                car.respectGiven.length !== minLength) {
-                res.status(400)
-                    .json('Prizes and respects should be ' + minLength + ' positive numbers!');
-                return;
-            }
-
-            car.prizes.sort(function (a, b) {
-                return a < b;
-            });
-            car.respectGiven.sort(function (a, b) {
-                return a < b;
-            });
-
-            maps.save(car)
-                .then(function (responseCar) {
-                    res.json(responseCar);
-                }, function (err) {
-                    res.status(err.status || 400)
-                        .json({
-                            message: err.message
-                        });
-                });
-        },
-        addForm: function (req, res) {
-            res.json('Form for adding a map!');
-        },
-        delete: function (req, res) {
-            maps.remove(req.params.id)
-                .then(function (result) {
-                    res.json(result);
-                }, function (err) {
-                    res.status(err.status || 400)
-                        .json({
-                            message: err.message
-                        });
-                });
-        }*/
+            var result = racesData.save(raceToBeAdded);
+            res.status(200);
+            res.json(result);
+        }
     };
 };
