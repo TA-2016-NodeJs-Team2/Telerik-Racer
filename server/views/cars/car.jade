@@ -1,0 +1,26 @@
+extends ../includes/layout
+block main-content
+    div(class="container")
+        div.jumbotron
+            div.row
+                div.col-md-5
+                    img.single-car-image(src=car.urlImage)
+                div.col-md-4.car-stats
+                    strong='Model: '
+                    span=car.model
+                    br
+                    strong='Turbo: '
+                    span=car.turbo
+                    br
+                    strong='Engine Level: '
+                    span=car.engineLevel
+                    br
+                    strong='Wheels Level: '
+                    span=car.wheelsLevel
+                div.col-md-3.car-stats
+                    strong='Price: '
+                    span=car.price
+                    br
+                    if(auser.canBuy)
+                        form(action='/shop/cars/' + car._id + '/buy' method=post)
+                            a.btn.btn-primary='Buy Car'

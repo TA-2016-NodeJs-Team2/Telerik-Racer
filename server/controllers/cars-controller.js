@@ -10,6 +10,8 @@ var mongoose = require('mongoose'),
 module.exports = function (carData) {
     return {
         getCarById: function (req, res, next) {
+            var currentUser = req.app.locals.user;
+
             if (!constants.objectIdPattern.test(req.params.id)) {
                 res.status(400)
                     .json({
@@ -17,9 +19,21 @@ module.exports = function (carData) {
                     });
                 return;
             }
+
             carData.details(req.params.id)
                 .then(function (car) {
-                    res.json(car);
+                    res.status(200);
+                    res.render('cars/car',
+                        {
+                            message: "Buy or buy not, there's no try",
+                            auser: {
+                                name: currentUser ? currentUser.username : undefined,
+                                authorized: req.app.locals.user,
+                                canBuy: (currentUser.cars.indexOf(c => c._id == car._id) > 0)
+                            },
+                            car: car
+                        }
+                    );
                 }, function (error) {
                     console.log(error);
                     res.status(error.status)
@@ -32,7 +46,7 @@ module.exports = function (carData) {
             carData.all(req.query.skip, req.query.take, req.query.sort, req.query.by)
                 .then(function (cars) {
                     res.status(200);
-                    res.render('cars',
+                    res.render('cars/all-cars',
                         {
                             message: "Buy or buy not, there's no try",
                             auser: {

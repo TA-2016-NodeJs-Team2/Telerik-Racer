@@ -3,6 +3,15 @@
     width: 150px;
 }
 
+.single-car-image {
+    height: 300px;
+    width: 350px;
+}
+
+.car-stats {
+    font-size: 2em;
+}
+
 .white-text {
     color: white;
 }
