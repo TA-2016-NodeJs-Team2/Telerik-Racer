@@ -4,16 +4,20 @@ table.table tr td.relative {
 }
 
 img.my-image {
-    width: 25%;
+    width: 150px;
 }
 
 div.real {
     display: none;
     position: absolute;
-    left: 30%;
+    left: 87%;
     top: 0;
 }
 
+table.table#tcars td {
+    vertical-align: middle;
+    text-align: center;
+}
 .borders {
     border: 1px #ddd solid;
     border-radius: 5px;
@@ -21,6 +25,10 @@ div.real {
 
 img.my-image:hover + div.real {
     display: block;
+}
+
+div.real img {
+    width: 0;
 }
 
 img.my-image:hover + div.real img {
