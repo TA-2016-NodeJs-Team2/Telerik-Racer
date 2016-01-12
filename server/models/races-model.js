@@ -6,6 +6,7 @@ var schema = new mongoose.Schema({
         required: true
     },
     users: [String],
+    usersIds: [String],
     cars: [String],
     status: {
         type: String
@@ -14,6 +15,9 @@ var schema = new mongoose.Schema({
         type: String
     },
     map: {
+        type: String
+    },
+    mapId: {
         type: String
     }
 });

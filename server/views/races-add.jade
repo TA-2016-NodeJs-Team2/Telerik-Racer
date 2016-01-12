@@ -9,13 +9,13 @@ block main-content
                     select(class="form-control" id="map" name="map")
                         option(value="") Choose a map
                         for map in maps
-                            option(value=map.name) #{map.name}
+                            option(value="#{map._id}|#{map.name}") #{map.name}
                     br
                     br
                     select(class="form-control" id="car" name="car")
                         option(value="") Choose your car for this race
                         for car in cars
-                            option(value=car._id) #{car}
+                            option(value=car._id) #{car.model}
                     br
                     button(type="submit" class="btn btn-lg btn-primary btn-block") Sign in
                     br
