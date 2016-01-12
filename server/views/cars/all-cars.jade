@@ -51,6 +51,6 @@ block main-content
                     .col-md-6
                         label.control-label.col-lg-3(for='pageSize' ) Page Size
                         .col-lg-6
-                            input#pageSize.form-control(type='number', placeholder=size name='size')
+                            input#pageSize.form-control(type='number', value='#{pageSize}' name='size')
                     .col-md-3.pull-right
                         button.btn.btn-primary(name='page' value=nextPage()) >>
