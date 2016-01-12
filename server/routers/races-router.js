@@ -10,7 +10,10 @@ router
     .get('/', racesController.default)
     .get('/add', racesController.createRaceRender)
     .post('/add', racesController.createRaceAction)
-    .get('/all', racesController.listAllRender);
+    .get('/all', racesController.listAllRender)
+    .get('/:id', racesController.specificRender)
+    .post('/:id', racesController.joinRace);
+
 
 module.exports = function (app) {
     app.use('/races', router);

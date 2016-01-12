@@ -39,6 +39,7 @@ module.exports = {
                 });
         });
     },
+
     save: function (newRace) {
         return new BBPromise(function (resolve, reject) {
             var dbRace = new RaceModel(newRace);
