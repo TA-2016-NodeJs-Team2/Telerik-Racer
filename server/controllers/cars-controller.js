@@ -24,8 +24,8 @@ module.exports = function (carData) {
             carData.details(req.params.id)
                 .then(function (car) {
                     var canBuy = true;
-                    for (let i = 0; i < currentUser._doc.cars.length; i += 1) {
-                        if (currentUser._doc.cars[i]._id.toString() == car._id.toString()) {
+                    for (let i = 0; i < currentUser.cars.length; i += 1) {
+                        if (currentUser.cars[i].model === car.model) {
                             canBuy = false;
                             break;
                         }
