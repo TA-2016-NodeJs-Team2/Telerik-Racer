@@ -25,8 +25,8 @@ module.exports = {
             if (size * 1 < 0) {
                 size = 0;
             }
-            page = page || 1;
-            size = size || 10;
+            page = (page * 1) || 1;
+            size = (size * 1) || 10;
             sort = sort || 'asc';
             by = by || 'price';
             var sortOpts = {};
