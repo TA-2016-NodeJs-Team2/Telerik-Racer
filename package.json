@@ -22,9 +22,11 @@
     "cookie-parser": "^1.4.0",
     "crypto-js": "^3.1.6",
     "express": "^4.13.3",
+    "jade": "^1.11.0",
     "mongoose": "^4.3.4",
     "nodemon": "^1.8.1",
     "passport": "^0.3.2",
-    "passport-http-bearer": "^1.0.1"
+    "passport-http-bearer": "^1.0.1",
+    "passport-strategy": "^1.0.0"
   }
 }

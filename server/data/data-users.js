@@ -116,12 +116,32 @@ module.exports = {
         return new BBPromise(function (resolve, reject) {
             User.update({_id: id}, model, {multi: false}, function (err, rowAffected) {
                 if (err) {
-                	return reject({
+                    return reject({
                         message: err.message
                     });
                 }
 
                 resolve(rowAffected);
+            });
+        });
+    },
+    repairCar: function (user, car, repairCost) {
+        return new BBPromise(function (resolve, reject) {
+            User.update({"cars.model": car.model}, {
+                $set: {
+                    "cars.$.damage": 0
+                },
+                $inc: {
+                    money: -repairCost
+                }
+            }, function (err, rowAffected) {
+                if (err) {
+                    return reject({
+                        message: 'Cannot repair your car'
+                    });
+                }
+
+                resolve('Done!');
             });
         });
     }
