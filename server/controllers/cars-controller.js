@@ -112,6 +112,7 @@ module.exports = function (carData) {
                                 return;
                             }
 
+                            // user.money -= car.price;
                             user.cars.push(car);
                             user.save();
                         });
