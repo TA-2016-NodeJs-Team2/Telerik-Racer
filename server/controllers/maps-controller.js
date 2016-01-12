@@ -7,7 +7,7 @@ module.exports = function (maps) {
         getAll: function (req, res) {
             maps.all(req.query)
                 .then(function (responseMaps) {
-                    res.json(responseMaps);
+                    res.render('maps', {maps: responseMaps});
                 }, function (err) {
                     res.status(err.status || 400)
                         .json({
@@ -28,7 +28,7 @@ module.exports = function (maps) {
 
             maps.details(req.params.id)
                 .then(function (responseMap) {
-                    res.json(responseMap);
+                    res.render('map-detail', {map: responseMap});
                 }, function (err) {
                     res.status(err.status || 400)
                         .json({

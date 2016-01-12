@@ -1,0 +1,20 @@
+extends ./includes/layout
+block main-content
+    .container
+        h1= map.name
+        div.row
+            div.col-md-3 Prizes
+                ol.list-group
+                    each prize, i in map.prizes
+                        li.list-group-item
+                            strong=  (i + 1) + '.'
+                            span.badge= '$' + prize
+        div.row
+            div.col-md-3 Respects
+                ol.list-group
+                    each respect, i in map.respectGiven
+                        li.list-group-item
+                            strong= (i + 1) + '.'
+                            span.label.label-success.pull-right= respect
+        div.row
+            span.text-danger= map.damageToTake

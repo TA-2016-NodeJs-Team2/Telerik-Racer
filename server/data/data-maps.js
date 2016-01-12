@@ -11,7 +11,6 @@ module.exports = {
                 .skip((query.page - 1) * query.size)
                 .limit(query.size)
                 .sort(query.by)
-                .select('name')
                 .exec(function (err, users) {
                     if (err) {
                         return reject(err);

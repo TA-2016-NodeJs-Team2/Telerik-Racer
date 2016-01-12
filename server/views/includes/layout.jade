@@ -5,6 +5,7 @@ html
         link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css')
         link(rel='stylesheet', href='https://bootswatch.com/spacelab/bootstrap.min.css')
         link(rel='stylesheet', href='/css/style.css')
+        link(rel='stylesheet', href='/css/main.css')
     body
         header
             nav.navbar.navbar-default.navbar-fixed-top
@@ -19,7 +20,7 @@ html
                                 a(href="/shop/cars") Cars
                             if user && (user.role === 'administrator' || user.role === 'moderator')
                                 li
-                                    a(href="#") Maps
+                                    a(href="/maps") Maps
                             if user && user.role === 'administrator'
                                 li.dropdown
                                     a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='false')
@@ -33,23 +34,25 @@ html
                         ul.nav.navbar-nav.navbar-right
                             if !user
                                 li
-                                    a(href="api/users/register") Register
+                                    a(href="/api/users/register") Register
                                 li
-                                    a(href="api/users/login") Login
+                                    a(href="/api/users/login") Login
                             else
                                 li.dropdown
                                     a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='false')
                                         = user.username
                                         span.caret
+                                        span.glyphicon.glyphicon-user.pull-left &nbsp;
                                     ul.dropdown-menu
                                         li
-                                            a(href='#') Action
+                                            a(href='/profile') Profile
                                         li
-                                            a(href='#') Another action
+                                            a(href='/profile/cars') Cars
                                         li.divider(role='separator')
                                         li
-                                            form.navbar-form.navbar-left(action='api/users/logout', method='post')
-                                                button(type='submit') Logout
+                                            form.navbar-form.navbar-left(action='/api/users/logout', method='post')
+                                                button(type='submit') Logout &nbsp;&nbsp;&nbsp;
+                                                    span.glyphicon.glyphicon-off
 
         br
         br
