@@ -90,9 +90,18 @@ module.exports = function (maps) {
             res.json('Form for adding a map!');
         },
         delete: function (req, res) {
+            // Argument passed in must be a single String of 12 bytes or a string of 24 hex characters
+            if (!constants.objectIdPattern.test(req.params.id)) {
+                res.status(400)
+                    .json({
+                        message: 'This is not an Id'
+                    });
+                return;
+            }
+
             maps.remove(req.params.id)
                 .then(function (result) {
-                    res.json(result);
+                    res.redirect('/maps/all');
                 }, function (err) {
                     res.status(err.status || 400)
                         .json({

@@ -33,7 +33,7 @@ router.use(function (req, res, next) {
 router.get('/all', mapsController.getAll)
     .get('/add', mapsController.addForm)
     .get('/:id', mapsController.getDetails)
-    .delete('/:id/remove', function (req, res, next) {
+    .post('/:id/remove', function (req, res, next) {
         if (req.user.role === constants.roles.administrator) {
         	return next();
         }
