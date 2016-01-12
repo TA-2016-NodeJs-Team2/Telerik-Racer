@@ -55,7 +55,7 @@ module.exports = function (carData) {
             carData.all(req.query.page, req.query.size, req.query.sort, req.query.by)
                 .then(function (cars) {
                     var page = (req.query.page * 1) || 1;
-                    var pageSize = (req.query.size * 1) || 5;
+                    var pageSize = (req.query.size * 1) || 10;
                     res.status(200);
                     res.render('cars/all-cars',
                         {
