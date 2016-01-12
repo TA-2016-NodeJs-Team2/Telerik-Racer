@@ -117,18 +117,28 @@ module.exports = function (carData) {
                                 notifier.notify({
                                     'title': 'Error',
                                     'message': 'Not enough money!',
-                                    icon: imgDir
+                                    icon: imgDir,
+                                    time: 2000
                                 });
-                                return;
+                                res.redirect(req.get('referer'));
+                            } else {
+                                // user.money -= car.price;
+                                user.cars.push(car);
+                                user.save();
+                                
+                                // Notify successfully bought. Redirect?
+                                var imgDir = path.join(__dirname, '../../imgs/', 'notification_success.png');
+                                notifier.notify({
+                                    'title': 'Success',
+                                    'message': 'Car was successfully added to your collection, racer!',
+                                    icon: imgDir,
+                                    time: 2000
+                                });
+                                res.redirect('/profile/cars/');
                             }
 
-                            // user.money -= car.price;
-                            user.cars.push(car);
-                            user.save();
                         });
 
-                    // Notify successfully bought. Redirect?
-                    res.redirect('/shop/cars/' + req.params.id);
                 }, function (error) {
                     console.log(error);
                     res.status(error.status)
