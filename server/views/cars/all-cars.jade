@@ -1,20 +1,20 @@
 extends ../includes/layout
 block main-content
     div(class="container")
-        form.form-horizontal(action='/shop/cars/all' method='GET')
+        form.form-horizontal(action='/shop/cars/all' method='GET' id='filter')
             fieldset
                 legend Filter
                 .form-group
                     label.col-lg-1.control-label(for='sort') Sort
                     .col-lg-3
                         select#sort.form-control(name='sort')
-                            option(value='asc') Ascending
-                            option(value='desc') Descending
+                            option(value='asc' selected=sort == 'asc') Ascending
+                            option(value='desc', selected=sort == 'desc') Descending
                     label.col-lg-1.control-label(for='by') By
                     .col-lg-3
                         select#by.form-control(name='by')
-                            option(value='price') Price
-                            option(value='engineLevel') Engine Power
+                            option(value='price' selected=by=='price') Price
+                            option(value='engineLevel' selected=by=='engineLevel') Engine Power
                 .form-group
                     .col-lg-12.col-lg-offset-10
                         button.btn.btn-primary Submit
@@ -44,13 +44,13 @@ block main-content
                             td.text-center
                                 //a.btn.btn-primary(href='/shop/cars/' + val._id + '/buy')='Buy'
                                 a.btn.btn-primary(href='/shop/cars/' + val._id)='Show more'
-            form.form-horizontal(action='/shop/cars/all' method='GET')
-                .col-md-12
-                    .col-md-3.pull-left
-                        button.btn.btn-primary(name='page' value=prevPage()) <<
-                    .col-md-6
-                        label.control-label.col-lg-3(for='pageSize' ) Page Size
-                        .col-lg-6
-                            input#pageSize.form-control(type='number', value='#{pageSize}' name='size')
-                    .col-md-3.pull-right
-                        button.btn.btn-primary(name='page' value=nextPage()) >>
+        .form-group
+            .col-md-15
+                .col-md-3.pull-left
+                    button.btn.btn-primary(name='page' value=prevPage() form='filter') <<
+                .col-md-6
+                    label.control-label.col-lg-3(for='pageSize' ) Page Size
+                    .col-lg-6
+                        input#pageSize.form-control(type='number', value='#{pageSize}' name='size' form='filter')
+                .col-md-0.pull-right
+                    button.btn.btn-primary(name='page' value=nextPage() form='filter') >>

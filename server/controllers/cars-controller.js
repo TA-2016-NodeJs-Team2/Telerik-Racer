@@ -65,6 +65,8 @@ module.exports = function (carData) {
                                 authorized: req.app.locals.user
                             },
                             cars: cars,
+                            sort: req.query.sort,
+                            by: req.query.by,
                             pageSize: pageSize,
                             nextPage: function () {
                                 return page + 1;
