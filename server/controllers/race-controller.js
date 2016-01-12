@@ -1,6 +1,7 @@
 'use strict';
 
-var constants = require('../common/constants');
+var constants = require('../common/constants'),
+    moment = require('moment');
 
 function DamageCar(carToDamage, damageToMake) {
     carToDamage.damage += damageToMake;
@@ -167,7 +168,8 @@ module.exports = function (racesData, carsData, mapsData, usersData) {
                                 canStart: canStart,
                                 canJoin: canJoin
                             },
-                            race: responseRace
+                            race: responseRace,
+                            date: moment(responseRace.dateCreated).format(' Do MMMM YYYY, h:mm:ss a')
                         });
                 }, function (err) {
                     res.status(err.status || 400)
