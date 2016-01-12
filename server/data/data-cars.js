@@ -32,16 +32,21 @@ module.exports = {
             var sortOpts = {};
             sortOpts[by] = sort;
 
-            Car.find()
-                .skip((page - 1) * size)
-                .limit(size * 1)
-                .sort(sortOpts)
-                .exec(function (err, cars) {
-                    if (err) {
-                        return reject(err);
-                    }
-                    resolve(cars);
-                });
+            Car.count().exec(function (err, number) {
+                if ((page - 1) * size >= number) {
+                    page = Math.ceil(number / size);
+                }
+                Car.find()
+                    .skip((page - 1) * size)
+                    .limit(size * 1)
+                    .sort(sortOpts)
+                    .exec(function (err, cars) {
+                        if (err) {
+                            return reject(err);
+                        }
+                        resolve(cars);
+                    });
+            });
         });
     },
     save: function (newCar) {
