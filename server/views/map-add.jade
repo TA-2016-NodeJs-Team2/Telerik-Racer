@@ -1,0 +1,70 @@
+extends ./includes/layout
+block main-content
+    .container
+        form.form-horizontal(action='/maps/add', method='Post')
+            fieldset
+                legend Add a new map
+                .form-group
+                    label.col-lg-2.control-label(for='nameMap') Name
+                    .col-lg-6
+                        input#nameMap.form-control(placeholder='name', name='name' required='required' type='text')
+                div.col-md-6
+                    .form-group
+                        label.col-lg-4.control-label
+                            h4 Prizes
+                div.col-md-6
+                    .form-group
+                        label.col-lg-4.control-label
+                            h4 Respects
+                div.col-md-6
+                    .form-group
+                        label.col-lg-4.control-label(for='prize1') First prize
+                        .col-lg-3
+                            input#prize1.form-control(placeholder='0', name='prize1' required='required' min='0' type='number')
+                    .form-group
+                        label.col-lg-4.control-label(for='prize2') Second prize
+                        .col-lg-3
+                            input#prize2.form-control(placeholder='0', name='prize2' required='required' min='0' type='number')
+                    .form-group
+                        label.col-lg-4.control-label(for='prize3') Third prize
+                        .col-lg-3
+                            input#prize3.form-control(placeholder='0', name='prize3' required='required' min='0' type='number')
+                    .form-group
+                        label.col-lg-4.control-label(for='prize4') Fourth prize
+                        .col-lg-3
+                            input#prize4.form-control(placeholder='0', name='prize4' required='required' min='0' type='number')
+                    .form-group
+                        label.col-lg-4.control-label(for='prize5') Fifth prize
+                        .col-lg-3
+                            input#prize5.form-control(placeholder='0', name='prize5' required='required' min='0' type='number')
+                div.col-md-6
+                    .form-group
+                        label.col-lg-4.control-label(for='respect1') First
+                        .col-lg-3
+                            input#respect1.form-control(placeholder='0', name='respect1' required='required' min='0' type='number')
+                    .form-group
+                        label.col-lg-4.control-label(for='respect2') Second
+                        .col-lg-3
+                            input#respect2.form-control(placeholder='0', name='respect2' required='required' min='0' type='number')
+                    .form-group
+                        label.col-lg-4.control-label(for='respect3') Third
+                        .col-lg-3
+                            input#respect3.form-control(placeholder='0', name='respect3' required='required' min='0' type='number')
+                    .form-group
+                        label.col-lg-4.control-label(for='respect4') Fourth
+                        .col-lg-3
+                            input#respect4.form-control(placeholder='0', name='respect4' required='required' min='0' type='number')
+                    .form-group
+                        label.col-lg-4.control-label(for='respect5') Fifth
+                        .col-lg-3
+                            input#respect5.form-control(placeholder='0', name='respect5' required='required' min='0' type='number')
+                .form-group
+                    label.col-lg-2.control-label.text-danger(for='damage') Damage
+                    .col-lg-4
+                        input#damage.form-control(placeholder='0', title='Each car will take this damage' min='0' max='100' name='damageToTake' required='required' type='number')
+
+                .form-group
+                    .col-lg-10.col-lg-offset-2
+                        a.col-lg-1.btn.btn-warning(href='/maps/all') Cancel
+                        button.btn.btn-success.col-lg-4.col-md-push-3 Submit
+

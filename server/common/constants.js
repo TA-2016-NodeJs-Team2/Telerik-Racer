@@ -10,14 +10,14 @@ module.exports = {
     },
     query: {
         defaultPage: 1,
-        defaultSize: 10,
+        defaultSize: 15,
         users : {
             by : 'username',
             possibleFields: ['username', 'dateRegistered', 'level', 'respect']
         },
         maps: {
             by: 'name',
-            possibleFields: ['name', 'date', 'damageToTake']
+            possibleFields: ['name', 'date', 'damageToTake', 'prizes']
         }
     },
     cookieHours: 24,

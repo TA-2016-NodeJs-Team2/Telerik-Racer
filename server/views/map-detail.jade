@@ -9,6 +9,13 @@ block main-content
                         li.list-group-item
                             strong=  (i + 1) + '.'
                             span.badge= '$' + prize
+            if user.role === 'administrator'
+                div.col-md-3
+                    div.alert-danger Remove this map
+                        form(action='/maps/' + map._id + '/remove', method='POST')
+                            div.text-center
+                                button.btn.btn-danger DELETE
+                                p.help-block There are no undo!
         div.row
             div.col-md-3 Respects
                 ol.list-group
@@ -17,4 +24,7 @@ block main-content
                             strong= (i + 1) + '.'
                             span.label.label-success.pull-right= respect
         div.row
-            span.text-danger= map.damageToTake
+            h4
+                dic.alert-danger Damage to take from cars:&nbsp;&nbsp;&nbsp;
+                    strong.text-danger= map.damageToTake
+

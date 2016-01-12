@@ -66,9 +66,10 @@ module.exports = {
         });
     },
     remove: function (id) {
+        console.log(id);
         return new BBPromise(function (resolve, reject) {
-            MapModel.remove({_id: id}, function (err, rawData) {
-                if (err || rawData.result.n === 0) {
+            MapModel.findByIdAndRemove(id, function (err) {
+                if (err) {
                     return reject({
                         status: 404,
                         message: 'map not found'
@@ -76,8 +77,6 @@ module.exports = {
                 }
 
                 resolve({
-                    status: rawData.result.ok,
-                    documentsModified: rawData.result.n,
                     message: 'Map removed!'
                 });
             });
