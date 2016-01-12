@@ -34,17 +34,22 @@ module.exports = function (dataUsers) {
 
             dataUsers.repairCar(req.user, car, repairCost)
                 .then(function (success) {
-                    res.send(success);
+                    res.redirect('/profile/cars');
                 }, function (error) {
                     res.send(error);
                 });
 
         },
         listCars: function (req, res) {
-            res.json(req.user.cars);
+
+            for (var i = 0; i < req.user.cars.length; i += 1) {
+                req.user.cars[i].costRepair = moneyForRepair(req.user.cars[i]);
+            }
+
+            res.render('profile-cars', {cars: req.user.cars});
         },
         userInfo: function (req, res) {
-            res.json(req.user);
+            res.render('profile', {info: req.user});
         }
     };
 };

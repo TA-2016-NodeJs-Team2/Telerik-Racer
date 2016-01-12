@@ -1,0 +1,39 @@
+extends ./includes/layout
+block main-content
+    .container
+        .jumbotron
+            div.row
+                div.col-md-2
+                    h3 Username
+                div.col-md-4
+                    h3.pull-left: strong.text-success= info.username
+            if user.role == 'administrator' || user.role == 'moderator'
+            div.row
+                div.col-md-2
+                    h3 Permissions
+                case info.role
+                    when 'administrator'
+                        dic.col-md-4
+                            h3 Full CRUD Operations
+                    when 'moderator'
+                        h3 Access to maps and cars
+            div.row
+                div.col-md-2
+                    h3 Level
+                div.col-md-2
+                    h3= info.level
+            div.row
+                div.col-md-2
+                    h3 Respect
+                div.col-md-2
+                    h3= info.respect
+            div.row
+                div.col-md-2
+                    h3 Money
+                div.col-md-2
+                    h3= '$' + info.money
+            div.row
+                div.col-md-4
+                    h3
+                        a.list-group-item(href='/profile/cars') Cars
+                            span.badge= info.cars.length
