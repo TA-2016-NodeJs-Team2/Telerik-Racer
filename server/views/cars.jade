@@ -1,0 +1,28 @@
+extends includes/layout
+block main-content
+    div(class="container")
+        div(class='jumbotron')
+            p= message
+
+
+        .panel.panel-primary
+            .panel-heading
+                h3(class="col-md-4") Looks
+                    h3(class="col-md-4") Price
+                    h3(class="col-md-4") Stats
+            .panel-body
+                each val in cars
+                    div(class='row')
+                            div(class="col-md-4")
+                                    img(src=val.urlImage class="img-responsive")
+                            div(class="col-md-4")
+                               div(class="container")
+                                   p=val.price
+                            div(class="col-md-4")
+                                div(class="container")
+                                    ul
+                                        li='Level required: ' + val.levelRequired
+                                        li='Turbo: ' + val.turbo
+                                        li='Engine Level: ' + val.engineLevel
+                                        li='Wheels Level: ' + val.wheelsLevel
+                                        li='Model: ' + val.model

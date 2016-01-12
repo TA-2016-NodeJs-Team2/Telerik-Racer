@@ -27,9 +27,21 @@ module.exports = function (carData) {
                 });
         },
         getAllCars: function (req, res, next) {
+            var currentUser = req.app.locals.user;
+
             carData.all(req.query.skip, req.query.take, req.query.sort, req.query.by)
                 .then(function (cars) {
-                    res.json(cars);
+                    res.status(200);
+                    res.render('cars',
+                        {
+                            message: "Buy or buy not, there's no try",
+                            auser: {
+                                name: currentUser ? currentUser.username : undefined,
+                                authorized: req.app.locals.user
+                            },
+                            cars: cars
+                        }
+                    );
                 }, function (error) {
                     res.status(error.status)
                         .json({message: error.message});
