@@ -2,7 +2,7 @@ extends ./includes/layout
 
 block main-content
     .container
-        table.table.table-bordered
+        table#tcars.table.table-bordered
             thead
                 tr
                     th(data-field="model") Your car
@@ -35,5 +35,5 @@ block main-content
                             if car.damage > 0
                                 form(action="/profile/cars/repair" method="POST")
                                     input.text-hide(value=car.model name="model")
-                                    button(type="submit")= 'Repair $' + car.costRepair
+                                    button.btn-success.btn(type="submit")= 'Repair $' + car.costRepair
 
