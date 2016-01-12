@@ -14,6 +14,11 @@ div.real {
     top: 0;
 }
 
+.borders {
+    border: 1px #ddd solid;
+    border-radius: 5px;
+}
+
 img.my-image:hover + div.real {
     display: block;
 }

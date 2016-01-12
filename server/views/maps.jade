@@ -1,0 +1,14 @@
+extends ./includes/layout
+block main-content
+    .container
+        div.row
+            each map in maps
+                div.col-lg-4.text-center.borders
+                    h3.text-info
+                        a(href="/maps/" + map._id)= map.name
+                    strong.bg-success Max prize:
+                    span.text-success!= '&nbsp; &nbsp;&nbsp; $' + map.prizes[0]
+                    br
+                    strong.bg-success Max respect:
+                    span.text-success!= '&nbsp; &nbsp;&nbsp; ' + map.respectGiven[0]
+
