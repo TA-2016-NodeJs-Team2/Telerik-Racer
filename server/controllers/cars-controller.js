@@ -10,8 +10,7 @@ var mongoose = require('mongoose'),
 module.exports = function (carData) {
     return {
         getCarById: function (req, res, next) {
-            var currentUser = req.app.locals.user;
-
+            var currentUser = req.user;
             if (!constants.objectIdPattern.test(req.params.id)) {
                 res.status(400)
                     .json({
@@ -22,6 +21,14 @@ module.exports = function (carData) {
 
             carData.details(req.params.id)
                 .then(function (car) {
+                    var canBuy = true;
+                    for(let i = 0; i < currentUser._doc.cars.length; i +=1){
+                        if(currentUser._doc.cars[i]._id.toString() == car._id.toString()){
+                            canBuy = false;
+                            break;
+                        }
+                    }
+
                     res.status(200);
                     res.render('cars/car',
                         {
@@ -29,7 +36,7 @@ module.exports = function (carData) {
                             auser: {
                                 name: currentUser ? currentUser.username : undefined,
                                 authorized: req.app.locals.user,
-                                canBuy: (currentUser.cars.indexOf(c => c._id == car._id) > 0)
+                                canBuy: canBuy
                             },
                             car: car
                         }
@@ -90,13 +97,19 @@ module.exports = function (carData) {
                 .then(function (car) {
                     User.findById(currUserId)
                         .exec(function (err, user) {
-                            if(err) throw err;
+                            if (err) throw err;
+
+                            if(user.money < car.price){
+                                // notify no money
+                                return;
+                            }
 
                             user.cars.push(car);
                             user.save();
                         });
 
-                    res.json(car);
+                    // Notify successfully bought. Redirect?
+                    res.redirect('/shop/cars/' + req.params.id);
                 }, function (error) {
                     console.log(error);
                     res.status(error.status)

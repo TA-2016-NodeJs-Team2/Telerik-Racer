@@ -22,5 +22,5 @@ block main-content
                     span=car.price
                     br
                     if(auser.canBuy)
-                        form(action='/shop/cars/' + car._id + '/buy' method=post)
-                            a.btn.btn-primary='Buy Car'
+                        form(action='/shop/cars/' + car._id + '/buy' method='post' id='buy-car-form')
+                            button.btn.btn-primary(type='submit' form="buy-car-form")='Buy Car'
