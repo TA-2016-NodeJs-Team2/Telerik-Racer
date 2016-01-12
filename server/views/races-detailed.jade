@@ -7,7 +7,7 @@ block main-content
                 br
                 h4 On map: #{race.map}
                 br
-                h4 Date initialized: #{race.dateCreated}
+                h4 Date initialized: #{date}
                 br
                 h4 Creator: #{race.creator}
                 br
@@ -19,7 +19,7 @@ block main-content
                                 select(class="form-control" id="car" name="car")
                                     option(value="") Choose your car for this race
                                     for car in cars
-                                        option(value=car._id) #{car}
+                                        option(value=car._id) #{car.model}
                                 br
                                 button(type="submit" class="btn btn-lg btn-primary btn-block") Join
                 if configuration.canStart

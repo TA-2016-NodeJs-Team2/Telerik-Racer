@@ -2,6 +2,8 @@
 
 var mongoose = require('mongoose'),
     url = require('url'),
+    notifier = require('node-notifier'),
+    path = require("path"),
     Car = mongoose.model('Car'),
     User = mongoose.model('User'),
     constants = require('../common/constants'),
@@ -22,8 +24,8 @@ module.exports = function (carData) {
             carData.details(req.params.id)
                 .then(function (car) {
                     var canBuy = true;
-                    for(let i = 0; i < currentUser._doc.cars.length; i +=1){
-                        if(currentUser._doc.cars[i]._id.toString() == car._id.toString()){
+                    for (let i = 0; i < currentUser._doc.cars.length; i += 1) {
+                        if (currentUser._doc.cars[i]._id.toString() == car._id.toString()) {
                             canBuy = false;
                             break;
                         }
@@ -99,11 +101,18 @@ module.exports = function (carData) {
                         .exec(function (err, user) {
                             if (err) throw err;
 
-                            if(user.money < car.price){
-                                // notify no money
+                            if (user.money < car.price) {
+                                // notify no money=
+                                var imgDir = path.join(__dirname, '../../imgs/', 'notification_error.png');
+                                notifier.notify({
+                                    'title': 'Error',
+                                    'message': 'Not enough money!',
+                                    icon: imgDir
+                                });
                                 return;
                             }
 
+                            // user.money -= car.price;
                             user.cars.push(car);
                             user.save();
                         });
