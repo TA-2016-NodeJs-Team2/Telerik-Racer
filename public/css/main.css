@@ -1,0 +1,23 @@
+
+table.table tr td.relative {
+    position: relative;
+}
+
+img.my-image {
+    width: 25%;
+}
+
+div.real {
+    display: none;
+    position: absolute;
+    left: 30%;
+    top: 0;
+}
+
+img.my-image:hover + div.real {
+    display: block;
+}
+
+img.my-image:hover + div.real img {
+    width: 280px;
+}

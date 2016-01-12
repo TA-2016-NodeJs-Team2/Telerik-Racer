@@ -4,6 +4,9 @@ html
         title Telerik-Racer
         link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css')
         link(rel='stylesheet', href='https://bootswatch.com/spacelab/bootstrap.min.css')
+        // link(rel='stylesheet', href='http://kendo.cdn.telerik.com/2014.1.318/styles/kendo.common.min.css')
+        // link(rel='stylesheet', href='http://kendo.cdn.telerik.com/2014.1.318/styles/kendo.default.min.css')
+        link(rel='stylesheet', href='/css/main.css')
     body
         header
             nav.navbar.navbar-default.navbar-fixed-top
@@ -39,16 +42,18 @@ html
                                 li.dropdown
                                     a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='false')
                                         = user.username
+                                        span.glyphicon.glyphicon-user.pull-left &nbsp;
                                         span.caret
                                     ul.dropdown-menu
                                         li
-                                            a(href='#') Action
+                                            a(href='/profile') Profile
                                         li
-                                            a(href='#') Another action
+                                            a(href='/profile/cars') Cars
                                         li.divider(role='separator')
                                         li
                                             form.navbar-form.navbar-left(action='api/users/logout', method='post')
-                                                button(type='submit') Logout
+                                                button(type='submit') Logout &nbsp;&nbsp;&nbsp;
+                                                    span.glyphicon.glyphicon-off
 
         br
         br

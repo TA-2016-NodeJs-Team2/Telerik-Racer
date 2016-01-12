@@ -12,7 +12,7 @@ router
     .post('/cars/repair', profileController.repair);
 
 module.exports = function (app) {
-    app.use('/profile', passport.authenticate('bearer', {
+    app.use('/profile', passport.authenticate('cookie', {
         session: false
     }), router);
 };
