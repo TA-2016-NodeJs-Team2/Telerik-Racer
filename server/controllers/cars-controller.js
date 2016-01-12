@@ -123,7 +123,7 @@ module.exports = function (carData) {
                                 });
                                 res.redirect(req.get('referer'));
                             } else {
-                                // user.money -= car.price;
+                                user.money -= car.price;
                                 user.cars.push(car);
                                 user.save();
 
