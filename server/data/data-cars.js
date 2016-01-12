@@ -19,6 +19,12 @@ module.exports = {
     },
     all: function (page, size, sort, by) {
         return new BBPromise(function (resolve, reject) {
+            if (page * 1 < 0) {
+                page = 0;
+            }
+            if (size * 1 < 0) {
+                size = 0;
+            }
             page = page || 1;
             size = size || 10;
             sort = sort || 'asc';

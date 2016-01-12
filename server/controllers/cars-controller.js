@@ -55,6 +55,7 @@ module.exports = function (carData) {
             carData.all(req.query.page, req.query.size, req.query.sort, req.query.by)
                 .then(function (cars) {
                     var page = (req.query.page * 1) || 1;
+                    var pageSize = (req.query.size * 1) || 5;
                     res.status(200);
                     res.render('cars/all-cars',
                         {
@@ -64,9 +65,7 @@ module.exports = function (carData) {
                                 authorized: req.app.locals.user
                             },
                             cars: cars,
-                            pageSize: req.query.size,
-                            isAscending: req.query.sort === 'asc',
-                            by: req.query.by,
+                            pageSize: pageSize,
                             nextPage: function () {
                                 return page + 1;
                             },
@@ -125,7 +124,7 @@ module.exports = function (carData) {
                                 // user.money -= car.price;
                                 user.cars.push(car);
                                 user.save();
-                                
+
                                 // Notify successfully bought. Redirect?
                                 var imgDir = path.join(__dirname, '../../imgs/', 'notification_success.png');
                                 notifier.notify({
