@@ -21,6 +21,20 @@ module.exports = {
                 });
         });
     },
+    getAllAsJson: function(){
+        return new BBPromise(function (resolve, reject) {
+            MapModel.find({})
+                .sort('name')
+                .select('name')
+                .exec(function (err, users) {
+                    if (err) {
+                        return reject(err);
+                    }
+
+                    resolve(users);
+                });
+        });
+    },
     details: function (id) {
         return new BBPromise(function (resolve, reject) {
             MapModel.findById(id)
