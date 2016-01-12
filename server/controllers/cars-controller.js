@@ -52,7 +52,7 @@ module.exports = function (carData) {
         getAllCars: function (req, res, next) {
             var currentUser = req.app.locals.user;
 
-            carData.all(req.query.skip, req.query.take, req.query.sort, req.query.by)
+            carData.all(req.query.page, req.query.size, req.query.sort, req.query.by)
                 .then(function (cars) {
                     res.status(200);
                     res.render('cars/all-cars',
