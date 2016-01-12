@@ -17,18 +17,18 @@ module.exports = {
                 });
         });
     },
-    all: function (skip, take, sort, by) {
+    all: function (page, size, sort, by) {
         return new BBPromise(function (resolve, reject) {
-            skip = skip || 1;
-            take = take || 10;
+            page = page || 1;
+            size = size || 10;
             sort = sort || 'asc';
             by = by || 'price';
             var sortOpts = {};
             sortOpts[by] = sort;
 
             Car.find()
-                .skip((skip - 1) * take)
-                .limit(take * 1)
+                .skip((page - 1) * size)
+                .limit(size * 1)
                 .sort(sortOpts)
                 .exec(function (err, cars) {
                     if (err) {
