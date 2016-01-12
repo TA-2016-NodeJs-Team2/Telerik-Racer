@@ -9,7 +9,7 @@ module.exports = {
         return new BBPromise(function (resolve, reject) {
             RaceModel.find({})
                 .skip((query.page - 1) * query.size)
-                .limit(query.size)
+                .limit(1*query.size)
                 .sort(query.by)
                 .exec(function (err, races) {
                     if (err) {
@@ -39,6 +39,7 @@ module.exports = {
                 });
         });
     },
+
     save: function (newRace) {
         return new BBPromise(function (resolve, reject) {
             var dbRace = new RaceModel(newRace);

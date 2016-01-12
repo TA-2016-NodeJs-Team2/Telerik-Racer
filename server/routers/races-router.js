@@ -2,18 +2,19 @@
 
 var express = require('express'),
     router = new express.Router(),
-    passport = require('passport'),
     racesData = require('../data/data-races'),
-    racesController = require('../controllers/race-controller')(racesData),
-    constants = require('../common/constants');
+    racesController = require('../controllers/race-controller')(racesData);
 
 
 router
-    .get('/all', racesController.getAll);
+    .get('/', racesController.default)
+    .get('/add', racesController.createRaceRender)
+    .post('/add', racesController.createRaceAction)
+    .get('/all', racesController.listAllRender)
+    .get('/:id', racesController.specificRender)
+    .post('/:id', racesController.joinRace);
+
 
 module.exports = function (app) {
-    app.use('/races', passport.authenticate('cookie', {
-        failureRedirect: '/home',
-        session: false
-    }), router);
+    app.use('/races', router);
 };

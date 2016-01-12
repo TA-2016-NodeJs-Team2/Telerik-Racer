@@ -1,0 +1,21 @@
+extends includes/layout
+block main-content
+    div(class="container")
+        div(class='row')
+            div(class="col-md-6 col-md-offset-3")
+                h3 Create race
+                form(class="form-signin" action='/races/add', method="post")
+                    br
+                    select(class="form-control" id="map" name="map")
+                        option(value="") Choose a map
+                        for map in maps
+                            option(value=map.name) #{map.name}
+                    br
+                    br
+                    select(class="form-control" id="car" name="car")
+                        option(value="") Choose your car for this race
+                        for car in cars
+                            option(value=car._id) #{car}
+                    br
+                    button(type="submit" class="btn btn-lg btn-primary btn-block") Sign in
+                    br

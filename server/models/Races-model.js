@@ -6,7 +6,11 @@ var schema = new mongoose.Schema({
         required: true
     },
     users: [String],
+    cars: [String],
     status: {
+        type: String
+    },
+    creator: {
         type: String
     },
     map: {
