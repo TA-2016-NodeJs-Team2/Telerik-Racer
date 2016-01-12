@@ -24,3 +24,9 @@ block main-content
                     if(auser.canBuy)
                         form(action='/shop/cars/' + car._id + '/buy' method='post' id='buy-car-form')
                             button.btn.btn-primary(type='submit' form="buy-car-form")='Buy Car'
+                    else
+                        .alert.alert-dismissible.alert-success
+                            button.close(type='button', data-dismiss='alert') x
+                            span You already have this car!
+                                a(href='/profile/cars') collection.
+
