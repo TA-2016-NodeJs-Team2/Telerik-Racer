@@ -1,28 +1,28 @@
 extends includes/layout
 block main-content
     div(class="container")
-        div(class='jumbotron')
-            p= message
-
-
         .panel.panel-primary
             .panel-heading
-                h3(class="col-md-4") Looks
-                    h3(class="col-md-4") Price
-                    h3(class="col-md-4") Stats
+                h3.white-text=message
             .panel-body
-                each val in cars
-                    div(class='row')
-                            div(class="col-md-4")
-                                    img(src=val.urlImage class="img-responsive")
-                            div(class="col-md-4")
-                               div(class="container")
-                                   p=val.price
-                            div(class="col-md-4")
-                                div(class="container")
-                                    ul
-                                        li='Level required: ' + val.levelRequired
-                                        li='Turbo: ' + val.turbo
-                                        li='Engine Level: ' + val.engineLevel
-                                        li='Wheels Level: ' + val.wheelsLevel
-                                        li='Model: ' + val.model
+                table.table.table-bordered
+                    tr
+                        th.col-md-4 Looks
+                        th.col-md-4 Price
+                        th.col-md-4 Stats
+                    each val in cars
+                        tr
+                            td.text-center
+                                img.img-responsive.img-circle.car-image-shop(src=val.urlImage)
+                            td.text-center
+                                div=val.price
+                            td.text-center
+                                ul
+                                    li='Level required: ' + val.levelRequired
+                                    li='Turbo: ' + val.turbo
+                                    li='Engine Level: ' + val.engineLevel
+                                    li='Wheels Level: ' + val.wheelsLevel
+                                    li='Model: ' + val.model
+                            td.text-center
+                                //a.btn.btn-primary(href='/shop/cars/' + val._id + '/buy')='Buy'
+                                a.btn.btn-primary(href='/shop/cars/' + val._id)='Show more'

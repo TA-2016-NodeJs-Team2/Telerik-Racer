@@ -1,0 +1,13 @@
+.car-image-shop {
+    height: 150px;
+    width: 150px;
+}
+
+.white-text {
+    color: white;
+}
+
+.panel-body .table tr th, .panel-body .table tr td, .panel-body .table tr td * {
+    text-align: center;
+    vertical-align: middle;
+}
