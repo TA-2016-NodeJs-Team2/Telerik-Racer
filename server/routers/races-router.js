@@ -12,7 +12,9 @@ router
     .post('/add', racesController.createRaceAction)
     .get('/all', racesController.listAllRender)
     .get('/:id', racesController.specificRender)
+    .post('/:id/start', racesController.startRace)
     .post('/:id', racesController.joinRace);
+
 
 
 module.exports = function (app) {

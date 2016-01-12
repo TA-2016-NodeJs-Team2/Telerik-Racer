@@ -151,6 +151,44 @@ module.exports = function (racesData) {
                     if (!canJoin) {
                         res.status(400);
                         res.json("You can't join race more than once!");
+                        return;
+                    }
+
+                    responseRace.users.push(currentUser.username);
+                    var result = responseRace.save(function (err, race) {
+                        if (err) {
+                            res.status(500);
+                            res.json(err);
+                            return;
+                        }
+                        res.redirect(req.params.id);
+                    });
+                }, function (err) {
+                    res.status(err.status || 400)
+                        .json({
+                            message: err.message
+                        });
+                });
+        },
+        startRace: function(req, res){
+            var currentUser = req.app.locals.user;
+            if (!currentUser) {
+                res.status(400)
+                    .json('You are not authorized');
+                return;
+            }
+            var raceFromDb = racesData
+                .details(req.params.id)
+                .then(function (responseRace) {
+                    var canStart = false;
+                    if (responseRace.creator === currentUser.username) {
+                        canStart = true;
+                    }
+
+                    if (!canStart) {
+                        res.status(400);
+                        res.json("You can't start someone's race");
+                        return;
                     }
 
                     responseRace.users.push(currentUser.username);
