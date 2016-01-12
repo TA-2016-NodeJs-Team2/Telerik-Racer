@@ -54,6 +54,7 @@ module.exports = function (carData) {
 
             carData.all(req.query.page, req.query.size, req.query.sort, req.query.by)
                 .then(function (cars) {
+                    var page = (req.query.page * 1) || 1;
                     res.status(200);
                     res.render('cars/all-cars',
                         {
@@ -62,7 +63,16 @@ module.exports = function (carData) {
                                 name: currentUser ? currentUser.username : undefined,
                                 authorized: req.app.locals.user
                             },
-                            cars: cars
+                            cars: cars,
+                            pageSize: req.query.size,
+                            isAscending: req.query.sort === 'asc',
+                            by: req.query.by,
+                            nextPage: function () {
+                                return page + 1;
+                            },
+                            prevPage: function () {
+                                return page - 1;
+                            }
                         }
                     );
                 }, function (error) {
