@@ -1,32 +1,38 @@
 extends ../includes/layout
 block main-content
     .container
-        h2 Races that you create
-        table.table.table-bordered
-            tr
-                th №
-                th Date created
-                th Winners
-                th Status
-                th Link
-            each race, i in races
+        if !!races.length
+            h2 Races that you create
+            table.table.table-bordered
                 tr
-                    td= '#' + (i + 1)
-                    td= race.date
-                    if race.w && !!race.w.length
-                        td
-                            table.table
-                                tr
-                                    th Name
-                                    th Prize
-                                    th Respect
-                                each winner in race.w
+                    th №
+                    th Date created
+                    th Winners
+                    th Status
+                    th Link
+                each race, i in races
+                    tr
+                        td= '#' + (i + 1)
+                        td= race.date
+                        if race.w && !!race.w.length
+                            td
+                                table.table
                                     tr
-                                        td= winner.name
-                                        td= winner.prize
-                                        td= winner.respect
-                    else
-                        td= 'Still not finished'
-                    td= race.status
-                    td
-                        a.btn-default.btn(href='/races/' + race._id) Details
+                                        th Name
+                                        th Prize
+                                        th Respect
+                                    each winner in race.w
+                                        tr
+                                            td= winner.name
+                                            td= winner.prize
+                                            td= winner.respect
+                        else
+                            td= 'Still not finished'
+                        td= race.status
+                        td
+                            a.btn-default.btn(href='/races/' + race._id) Details
+        else
+            h2 You don't have any races
+                div.text-center
+                    span.pull-left Options:
+                    a.btn.btn-info(href='/races/add') Create one

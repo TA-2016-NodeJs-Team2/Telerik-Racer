@@ -137,6 +137,18 @@ module.exports = {
                 });
         });
     },
+    racesWithUser: function (username) {
+        return new BBPromise(function (resolve, reject) {
+            RaceModel.find({users: username})
+                .exec(function (err, races) {
+                    if (err) {
+                        return reject(err);
+                    }
+
+                    resolve(races);
+                });
+        });
+    },
     repairCar: function (user, car, repairCost) {
         return new BBPromise(function (resolve, reject) {
             User.update({"username": user.username, "cars.model": car.model}, {
