@@ -17,7 +17,7 @@ router.use(function (req, res, next) {
     }
 
     // TODO: implement some view permissions required
-    res.redirect('/login');
+    res.redirect('/home');
 });
 
 // middleware to set query params
@@ -42,16 +42,15 @@ router
 
         // get header that was set in middleware
         if (req.headers[constants.securityHeader.name] !== constants.securityHeader.value) {
-            res.redirect('/login');
+            res.redirect('/home');
             return;
         }
 
-        console.log(req.headers);
-        res.send('Administrator view');
+        res.render('admin-views/administrator-home');
     })
     .get('/users', adminController.all)
     .get('/users/:id', adminController.details)
-    .delete('/users/:id', adminController.deleteUser)
+    .post('/users/:id', adminController.deleteUser)
     .put('/users/:id', adminController.updateUser);
 
 module.exports = function (app) {

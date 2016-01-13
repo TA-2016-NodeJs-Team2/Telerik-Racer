@@ -4,7 +4,7 @@ module.exports = function (data) {
         all: function (req, res) {
             data.all(req.query)
                 .then(function (response) {
-                    res.json(response);
+                    res.render('admin-views/users', {users: response});
                 }, function (err) {
                     res.status(400)
                         .json({
