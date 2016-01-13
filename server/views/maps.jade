@@ -11,18 +11,16 @@ block main-content
                     label.col-lg-2.control-label(for='select') Sort by
                     div.col-md-2
                         select#select.form-control(name='by')
-                            option(value=!!query.by && query.by[0] == '-' ? query.by.substr(1) : query.by || 'name' selected='selected')= !!query.by && query.by[0] == '-' ? query.by.substr(1) : query.by || '----'
-                            option(value='name' ) Name
-                            option(value='date') Date
-                            option(value='damageToTake') Damage
-                            option(value='prizes') Prize
+                            option(value='name' selected=query.by=='name') Name
+                            option(value='date' selected=query.by=='date') Date
+                            option(value='damageToTake' selected=query.by=='damageToTake') Damage
+                            option(value='prizes' selected=query.by=='prizes') Prize
                 div.form-inline
                     label.col-lg-2.control-label(for='method') Method
                     div.col-md-2
                         select#method.form-control(name='sort')
-                            option(value=!!query.by && query.by[0] == '-' ? 'desc' : 'asc' selected='selected')= !!query.by && query.by[0] == '-' ? 'Descending' : 'Ascending'
-                            option(value='asc') Ascending
-                            option(value='desc') Descending
+                            option(value='asc' selected=query.sort=='asc') Ascending
+                            option(value='desc' selected=query.sort=='desc') Descending
                 div.form-group
                     button.btn.btn-info Filter
 
