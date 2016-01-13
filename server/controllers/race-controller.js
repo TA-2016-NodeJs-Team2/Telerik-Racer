@@ -44,7 +44,7 @@ module.exports = function (racesData, carsData, mapsData, usersData) {
         default: function (req, res) {
             var currentUser = req.app.locals.user;
             res.status(200);
-            res.render('races', {
+            res.render('race-views/races', {
                 auser: {
                     name: currentUser ? currentUser.username : undefined,
                     authorized: req.app.locals.user
@@ -62,10 +62,10 @@ module.exports = function (racesData, carsData, mapsData, usersData) {
             mapsData.getAllAsJson()
                 .then(function (responseMaps) {
                     res.status(200);
-                    res.render('races-add', {
+                    res.render('race-views/races-add', {
                         maps: responseMaps,
                         cars: currentUser.cars
-                    })
+                    });
                 }, function (err) {
                     res.status(err.status || 400)
                         .json({
@@ -79,7 +79,7 @@ module.exports = function (racesData, carsData, mapsData, usersData) {
                 .all(req.query)
                 .then(function (responseRaces) {
                     res.status(200);
-                    res.render('races-all',
+                    res.render('race-views/races-all',
                         {
                             races: responseRaces
                         });
@@ -131,9 +131,13 @@ module.exports = function (racesData, carsData, mapsData, usersData) {
                 usersIds: usersIds
             };
 
-            var result = racesData.save(raceToBeAdded);
-            res.status(200);
-            res.json(result);
+            racesData.save(raceToBeAdded).then(function (savedRace) {
+                res.status(201);
+                res.redirect('/races/' + savedRace._id);
+            }, function (err) {
+                res.status(400)
+                    .redirect(req.get('referer'));
+            });
         },
         specificRender: function (req, res) {
             var currentUser = req.app.locals.user;
@@ -152,15 +156,14 @@ module.exports = function (racesData, carsData, mapsData, usersData) {
                         canStart = true;
                     }
                     for (var user of
-                    responseRace.users
-                    )
-                    {
+                        responseRace.users
+                        ) {
                         if (user === currentUser.username) {
                             canJoin = false;
                         }
                     }
 
-                    res.render('races-detailed',
+                    res.render('race-views/races-detailed',
                         {
                             cars: currentUser.cars,
                             id: req.params.id,
@@ -191,9 +194,8 @@ module.exports = function (racesData, carsData, mapsData, usersData) {
                     var canJoin = true;
 
                     for (var user of
-                    responseRace.users
-                    )
-                    {
+                        responseRace.users
+                        ) {
                         if (user === currentUser.username) {
                             canJoin = false;
                         }
@@ -280,7 +282,6 @@ module.exports = function (racesData, carsData, mapsData, usersData) {
                                                         winnersToGet = responseMap.prizes.length;
                                                     }
                                                     var winnersIndexes = GetWinners(carsFromDb, winnersToGet);
-
 
                                                     for (var j = 0; j < winnersIndexes.length; j++) {
                                                         usersFromDb[winnersIndexes[j]].money += responseMap.prizes[j];
