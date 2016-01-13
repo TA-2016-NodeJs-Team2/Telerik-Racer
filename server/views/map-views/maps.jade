@@ -11,10 +11,10 @@ block main-content
                     label.col-lg-2.control-label(for='select') Sort by
                     div.col-md-2
                         select#select.form-control(name='by')
-                            option(value='name' selected=query.by=='name') Name
-                            option(value='date' selected=query.by=='date') Date
-                            option(value='damageToTake' selected=query.by=='damageToTake') Damage
-                            option(value='prizes' selected=query.by=='prizes') Prize
+                            option(value='name' selected= (query.by=='name' || query.by=='-name')) Name
+                            option(value='date' selected= (query.by=='date' || query.by=='-date')) Date
+                            option(value='damageToTake' selected= (query.by=='damageToTake' || query.by=='-damageToTake')) Damage
+                            option(value='prizes' selected= (query.by=='prizes' || query.by=='-prizes')) Prize
                 div.form-inline
                     label.col-lg-2.control-label(for='method') Method
                     div.col-md-2
