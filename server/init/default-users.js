@@ -9,8 +9,8 @@ User.findOne({username: 'admin'})
 
         if (!user && !err) {
             User({
-                username: 'administrator',
-                hashPassword: SHA256('administrator'),
+                username: 'admin',
+                hashPassword: SHA256('admin'),
                 cars: [],
                 level: constants.models.user.defaultLevel,
                 respect: constants.models.user.defaultRespect,
