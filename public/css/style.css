@@ -26,10 +26,17 @@
 }
 
 .panel-body .table tr th, .panel-body .table tr td, .panel-body .table tr td * {
-    text-align: center;
     vertical-align: middle;
 }
 
+.centered {
+    text-align: center;
+}
+
+.panel-body .table tr th.stats, .panel-body .table tr td.stats, .panel-body .table tr td.stats {
+    text-align: right;
+    vertical-align: middle;
+}
 
 table.table tr td.relative {
     position: relative;
