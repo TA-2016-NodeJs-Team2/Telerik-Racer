@@ -11,6 +11,7 @@ module.exports = {
             var dbUser = new User(newUser);
             dbUser.save(function (err, user) {
                 if (err) {
+                    err.message = err.code === 11000 ? 'Username taken' : err.message;
                     return reject(err);
                 }
                 resolve(user);
@@ -29,7 +30,7 @@ module.exports = {
                     if (!dbUser) {
                         return reject({
                             status: 404,
-                            message: dbUser.username + ' not found!'
+                            message: userToLog.username + ' not found!'
                         });
                     }
 

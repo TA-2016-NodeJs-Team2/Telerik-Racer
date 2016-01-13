@@ -2,38 +2,43 @@ extends ./includes/layout
 
 block main-content
     .container
-        table#tcars.table.table-bordered
-            thead
-                tr
-                    th(data-field="model") Your car
-                    th(data-field="model") Model
-                    th(data-field="price") Bought at
-                    th(data-field="wheelsLevel") Wheels level
-                    th(data-field="engineLevel") Engine level
-                    th(data-field="turbo") Turbo
-                    th(data-field="damage") Damage
-                    th(data-field="damage") Repair
-            tbody
-                each car in cars
+        if !!cars.length
+            table#tcars.table.table-bordered
+                thead
                     tr
-                        td.relative
-                            img.img-thumbnail.my-image(src= car.urlImage)
-                            div.real
-                                img(src= car.urlImage)
+                        th(data-field="model") Your car
+                        th(data-field="model") Model
+                        th(data-field="price") Bought at
+                        th(data-field="wheelsLevel") Wheels level
+                        th(data-field="engineLevel") Engine level
+                        th(data-field="turbo") Turbo
+                        th(data-field="damage") Damage
+                        th(data-field="damage") Repair
+                tbody
+                    each car in cars
+                        tr
+                            td.relative
+                                img.img-thumbnail.my-image(src= car.urlImage)
+                                div.real
+                                    img(src= car.urlImage)
 
-                        td= car.model
-                        td= '$' + car.price
-                        td= car.wheelsLevel
-                        td= car.engineLevel
-                        td= car.turbo
-                        td
-                            if car.damage > 0
-                                strong.text-danger= car.damage
-                            else
-                                span= car.damage
-                        td
-                            if car.damage > 0
-                                form(action="/profile/cars/repair" method="POST")
-                                    input.text-hide(value=car.model name="model")
-                                    button.btn-success.btn(type="submit")= 'Repair $' + car.costRepair
-
+                            td= car.model
+                            td= '$' + car.price
+                            td= car.wheelsLevel
+                            td= car.engineLevel
+                            td= car.turbo
+                            td
+                                if car.damage > 0
+                                    strong.text-danger= car.damage
+                                else
+                                    span= car.damage
+                            td
+                                if car.damage > 0
+                                    form(action="/profile/cars/repair" method="POST")
+                                        input.text-hide(value=car.model name="model")
+                                        button.btn-success.btn(type="submit")= 'Repair $' + car.costRepair
+        else
+            .alert.alert-dismissible.alert-warning.text-center
+                    h3 You don't have any cars!
+                        p!= 'Checkout the &nbsp;'
+                            a.alert-link(href="/shop/cars/all", title='Shop') SHOP

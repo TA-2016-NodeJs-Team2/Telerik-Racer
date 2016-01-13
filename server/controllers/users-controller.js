@@ -2,7 +2,15 @@
 var mongoose = require('mongoose'),
     User = mongoose.model('User'),
     SHA256 = require('crypto-js/sha256'),
+    notifier = require('node-notifier'),
+    path = require('path'),
     constants = require('../common/constants');
+
+var notifyConfig = {
+    'title': 'Error',
+    icon:  path.join(__dirname, '../../imgs/', 'notification_error.png'),
+    time: 2000
+};
 
 module.exports = function (data) {
     return {
@@ -11,19 +19,17 @@ module.exports = function (data) {
             var user = req.body;
 
             if (!req.body) {
-                res.status(400)
-                    .json({
-                        message: 'data was not provided!'
-                    });
-                return;
+                notifyConfig.message = 'Data was not provided!';
+                notifier.notify(notifyConfig);
+                return res.status(400)
+                    .redirect(req.get('referer'));
             }
 
             if (!(user.username) || !(user.password)) {
-                res.status(400)
-                    .json({
-                        message: 'Username and password are required!'
-                    });
-                return;
+                notifyConfig.message = 'Username and password are required!';
+                notifier.notify(notifyConfig);
+                return res.status(400)
+                    .redirect(req.get('referer'));
             }
 
             user.hashPassword = SHA256(user.password) + '';
@@ -34,34 +40,36 @@ module.exports = function (data) {
             user.level = constants.models.user.defaultLevel;
             user.respect = constants.models.user.defaultRespect;
 
-            data.save(user).then(function (readyUser) {
+            data.save(user)
+                .then(function (readyUser) {
+                    notifyConfig.icon = path.join(__dirname, '../../imgs/', 'notification_success.png');
+                    notifyConfig.message = 'Success now you must login';
+                    notifier.notify(notifyConfig);
                 res.status(201)
-                    .json({
-                        username: readyUser.username
-                    });
+                    .redirect('/home');
             }, function (error) {
+                    notifyConfig.message = error.message;
+                    notifier.notify(notifyConfig);
                 res.status(error.status || 400)
-                    .json({
-                        message: error.message
-                    });
+                    .redirect(req.get('referer'));
             });
         },
         login: function (req, res) {
             // Code duplicate !!
             var user = req.body;
             if (!req.body) {
+                notifyConfig.message = 'data was not provided!';
+                notifier.notify(notifyConfig);
                 res.status(400)
-                    .json({
-                        message: 'data was not provided!'
-                    });
+                    .redirect(req.get('referer'));
                 return;
             }
 
             if (!(user.username) || !(user.password)) {
+                notifyConfig.message = 'Username and password are required!';
+                notifier.notify(notifyConfig);
                 res.status(400)
-                    .json({
-                        message: 'Username and password are required!'
-                    });
+                    .redirect(req.get('referer'));
                 return;
             }
 
@@ -72,17 +80,28 @@ module.exports = function (data) {
                     var date = new Date();
                     date.setHours(date.getHours() + constants.cookieHours);
 
+                    notifyConfig.icon = path.join(__dirname, '../../imgs/', 'notification_success.png');
+                    notifyConfig.message = 'Welcome ' + user.username;
+                    notifier.notify(notifyConfig);
+
                     res.cookie('Authorization', 'Bearer ' + user.token, {expires: date});
-                    res.send(user);
+                    res.redirect('/home');
                 }, function (error) {
-                    res.status(error.status)
-                        .json({message: error.message});
+                    notifyConfig.message = error.message;
+                    notifier.notify(notifyConfig);
+                    res.status(error.status || 400)
+                        .redirect(req.get('referer'));
                 });
         },
         logout: function (req, res) {
             req.logout();
+
+            notifyConfig.icon = path.join(__dirname, '../../imgs/', 'notification_success.png');
+            notifyConfig.message = 'Success logout!';
+            notifier.notify(notifyConfig);
+
             res.clearCookie('Authorization');
-            res.send('cookie should be cleared!');
+            res.redirect('/home');
         },
 
         //GET

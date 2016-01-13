@@ -37,6 +37,11 @@ block main-content
                     br
                     strong.bg-success Max respect:
                     span.text-success!= '&nbsp; &nbsp;&nbsp; ' + map.respectGiven[0]
+        if user && (user.role === 'moderator' || user.role === 'administrator')
+            br
+            br
+            div.row
+                a.btn.btn-lg.btn-block.btn-success(href="/maps/add") Add new map
 
 
 
