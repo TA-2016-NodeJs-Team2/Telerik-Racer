@@ -1,6 +1,7 @@
 'use strict';
 
 var constants = require('../common/constants'),
+    notifier = require('node-notifier'),
     moment = require('moment');
 
 function DamageCar(carToDamage, damageToMake) {
@@ -55,10 +56,11 @@ module.exports = function (racesData, carsData, mapsData, usersData) {
             var currentUser = req.app.locals.user;
 
             if (!currentUser) {
+                res.status(300);
                 res.redirect('/api/users/login');
+                return;
             }
 
-            var mapsData = require('../data/data-maps');
             mapsData.getAllAsJson()
                 .then(function (responseMaps) {
                     res.status(200);
@@ -104,20 +106,30 @@ module.exports = function (racesData, carsData, mapsData, usersData) {
         createRaceAction: function (req, res) {
             var currentUser = req.app.locals.user;
             if (!currentUser) {
-                res.status(400)
-                    .json('You are not authorized');
+                res.status(300);
+                res.redirect('/api/users/login');
                 return;
             }
             if (!req.body) {
-                res.status(400)
-                    .json('Please provide a good data!');
-                return;
+                notifier.notify({
+                    'title': 'Error',
+                    'message': 'Please provide a good data!',
+                    icon: constants.controllerImgDir + 'notification_error.png',
+                    time: 2000
+                });
+                res.redirect(req.get('referer'));
+                return ;
             }
 
             if (!req.body.car || !req.body.map) {
-                res.status(400)
-                    .json('Please enter the data in the form!');
-                return;
+                notifier.notify({
+                    'title': 'Error',
+                    'message': 'Please enter the data in the form!',
+                    icon: constants.controllerImgDir + 'notification_error.png',
+                    time: 2000
+                });
+                res.redirect(req.get('referer'));
+                return ;
             }
 
             var users = [];
@@ -146,8 +158,8 @@ module.exports = function (racesData, carsData, mapsData, usersData) {
                 res.status(201);
                 res.redirect('/races/' + savedRace._id);
             }, function (err) {
-                res.status(400)
-                    .redirect(req.get('referer'));
+                res.status(400);
+                res.redirect(req.get('referer'));
             });
         },
         specificRender: function (req, res) {
@@ -229,14 +241,24 @@ module.exports = function (racesData, carsData, mapsData, usersData) {
                         }
                     }
                     if (!canJoin) {
-                        res.status(400);
-                        res.json("You can't join race more than once!");
+                        notifier.notify({
+                            'title': 'Error',
+                            'message': 'You cant join race more than once!',
+                            icon: constants.controllerImgDir + 'notification_error.png',
+                            time: 2000
+                        });
+                        res.redirect(req.get('referer'));
                         return;
                     }
 
                     if (!req.body.car) {
-                        res.status(400);
-                        res.json("You haven't specified your car!");
+                        notifier.notify({
+                            'title': 'Error',
+                            'message': 'You havent specified your car!',
+                            icon: constants.controllerImgDir + 'notification_error.png',
+                            time: 2000
+                        });
+                        res.redirect(req.get('referer'));
                         return;
                     }
                     responseRace.cars.push(req.body.car);
