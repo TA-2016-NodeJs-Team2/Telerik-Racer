@@ -128,7 +128,7 @@ module.exports = {
     },
     repairCar: function (user, car, repairCost) {
         return new BBPromise(function (resolve, reject) {
-            User.update({"cars.model": car.model}, {
+            User.update({"username": user.username, "cars.model": car.model}, {
                 $set: {
                     "cars.$.damage": 0
                 },
