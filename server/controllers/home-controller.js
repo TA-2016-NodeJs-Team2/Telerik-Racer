@@ -48,7 +48,7 @@ module.exports = function () {
             res.status(401);
             res.render('unauthorised',
                 {
-                    imgUrl: 'http://s3.amazonaws.com/einstein-blog-live/public/uploads/images/44725/crash_photo.jpg',
+                    imgUrl: '/imgs/unauthorised.jpg',
                     message: "Ooops, you have took a wrong turn! Please log in, because you are not authorised to view this page!"
                 }
             );
