@@ -55,17 +55,3 @@ block main-content
                                 td.centered #{singleRace.users.length}
                                 td.centered
                                     a(href='#{singleRace._id}') See details here
-
-        div(clas='row')
-            .form-group
-                .col-md-15
-                    .col-md-3.pull-left
-                        button.btn.btn-primary(name='page' value=prevPage() form='filter') <<
-                    .col-md-6
-                        label.control-label.col-lg-3(for='pageSize' ) Page Size
-                        .col-lg-6
-                            input#pageSize.form-control(type='number', value='#{pageSize}' name='size' form='filter')
-                    .col-md-0.pull-right
-                        button.btn.btn-primary(name='page' value=nextPage() form='filter') >>
-        br
-        br
