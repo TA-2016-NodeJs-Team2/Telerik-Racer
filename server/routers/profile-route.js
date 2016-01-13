@@ -13,6 +13,7 @@ router
 
 module.exports = function (app) {
     app.use('/profile', passport.authenticate('cookie', {
+        failureRedirect: '/unauthorised',
         session: false
     }), router);
 };

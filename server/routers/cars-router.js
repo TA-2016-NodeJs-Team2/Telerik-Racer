@@ -7,11 +7,16 @@ var express = require('express'),
 // TODO: Add more routes.
 router
     .get('/all', carsController.getAllCars)
-    .get('/:id', carsController.getCarById)
+    .get('/:id', passport.authenticate('cookie', {
+        failureRedirect: '/unauthorised',
+        session: false
+    }), carsController.getCarById)
     .post('/:id/buy', passport.authenticate('cookie', {
+        failureRedirect: '/unauthorised',
         session: false
     }), carsController.buyCar)
     .post('/delete', passport.authenticate('cookie', {
+        failureRedirect: '/unauthorised',
         session: false
     }), carsController.removeCar)
     .get('/*', function (req, res) {
@@ -19,9 +24,5 @@ router
     });
 
 module.exports = function (app) {
-    app.use('/shop/cars',passport.authenticate('cookie', {
-        //ТODO: Unauthorised?
-        failureRedirect: '/home',
-        session: false
-    }),  router);
+    app.use('/shop/cars', router);
 };

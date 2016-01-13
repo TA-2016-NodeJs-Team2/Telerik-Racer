@@ -55,7 +55,7 @@ router
 
 module.exports = function (app) {
     app.use('/api/admin/', passport.authenticate('cookie', {
-        failureRedirect: '/home',
+        failureRedirect: '/unauthorised',
         session: false
     }), router);
 };

@@ -5,6 +5,7 @@ var express = require('express'),
 
 router
     .get('', homeController.getAnswer)
+    .get('/unauthorised', homeController.unauthorised)
     .get('/home', homeController.getAnswer);
 //.post('/delete', passport.authenticate('bearer', {
 //    session: false
