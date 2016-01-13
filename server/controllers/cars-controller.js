@@ -57,7 +57,7 @@ module.exports = function (carData) {
                     var page = (req.query.page * 1) || 1;
                     var pageSize = (req.query.size * 1) || 10;
                     var noMoreCars = false;
-                    if (cars.length == 0 && (page) * pageSize > (cars.length + ((page-1) * pageSize))) {
+                    if (cars.length == 0 && (page) * pageSize > (cars.length + ((page - 1) * pageSize))) {
                         console.log(cars.length);
                         noMoreCars = true;
                     }
@@ -120,7 +120,7 @@ module.exports = function (carData) {
                         .exec(function (err, user) {
                             if (err) throw err;
 
-                            if(user.level < car.levelRequired){
+                            if (user.level < car.levelRequired) {
                                 notifier.notify({
                                     'title': 'Error',
                                     'message': 'You are not high enough level!',
@@ -135,7 +135,7 @@ module.exports = function (carData) {
                                 notifier.notify({
                                     'title': 'Error',
                                     'message': 'Not enough money!',
-                                    icon:  constants.controllerImgDir + 'notification_error.png',
+                                    icon: constants.controllerImgDir + 'notification_error.png',
                                     time: 2000
                                 });
                                 return res.redirect(req.get('referer'));
@@ -148,7 +148,7 @@ module.exports = function (carData) {
                                 notifier.notify({
                                     'title': 'Success',
                                     'message': 'Car was successfully added to your collection, racer!',
-                                    icon: constants.controllerImgDir +  'notification_success.png',
+                                    icon: constants.controllerImgDir + 'notification_success.png',
                                     time: 2000
                                 });
                                 res.redirect('/profile/cars/');

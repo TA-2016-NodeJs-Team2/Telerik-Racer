@@ -2,6 +2,7 @@ var path = require('path');
 
 module.exports = {
     controllerImgDir: path.join(__dirname, '../../imgs/'),
+    publicImgDir: path.join(__dirname, '../../public/imgs/'),
     roles: {
         administrator: 'administrator',
         moderator: 'moderator',

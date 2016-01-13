@@ -13,11 +13,10 @@ block main-content
 
                     label.col-lg-1.control-label(for='only') Show
                     .col-lg-3
-                        select#by.form-control(name='only')
+                        select#only.form-control(name='only')
                             option(value='start' selected=only == 'start') Not started
                             option(value='finish' selected=only == 'finish') Finished
-                .form-group
-                    .col-lg-12.col-lg-offset-10
+                    .col-lg-0.pull-right
                         button.btn.btn-primary Submit
 
         br
@@ -28,10 +27,6 @@ block main-content
                 .col-md-15
                     .col-md-3.pull-left
                         button.btn.btn-primary(name='page' value=prevPage() form='filter') <<
-                    .col-md-6
-                        label.control-label.col-lg-3(for='pageSize' ) Page Size
-                        .col-lg-6
-                            input#pageSize.form-control(type='number', value='#{pageSize}' name='size' form='filter')
                     .col-md-0.pull-right
                         button.btn.btn-primary(name='page' value=nextPage() form='filter') >>
         br
@@ -55,3 +50,15 @@ block main-content
                                 td.centered #{singleRace.users.length}
                                 td.centered
                                     a(href='#{singleRace._id}') See details here
+
+        div(clas='row')
+            .form-group
+                .col-md-15
+                    .col-md-3.pull-left
+                        button.btn.btn-primary(name='page' value=prevPage() form='filter') <<
+                    .col-md-6
+                        label.control-label.col-lg-3(for='pageSize' ) Page Size
+                        .col-lg-6
+                            input#pageSize.form-control(type='number', value='#{pageSize}' name='size' form='filter')
+                    .col-md-0.pull-right
+                        button.btn.btn-primary(name='page' value=nextPage() form='filter') >>

@@ -2,7 +2,10 @@ doctype html
 html
     head
         title Telerik-Racer
-        link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css')
+        link(rel='stylesheet', href='//cdn.jsdelivr.net/alertifyjs/1.6.0/css/alertify.min.css')
+        link(rel='stylesheet', href='//cdn.jsdelivr.net/alertifyjs/1.6.0/css/themes/default.min.css')
+        link(rel='stylesheet', href='//cdn.jsdelivr.net/alertifyjs/1.6.0/css/themes/semantic.min.css')
+        link(rel='stylesheet', href='//cdn.jsdelivr.net/alertifyjs/1.6.0/css/themes/bootstrap.min.css')
         link(rel='stylesheet', href='https://bootswatch.com/spacelab/bootstrap.min.css')
         link(rel='stylesheet', href='/css/style.css')
     body
@@ -13,8 +16,16 @@ html
                         a.navbar-brand(href="/") TA Racer
                     .navbar-collapse.collapse
                         ul.nav.navbar-nav
-                            li
-                                a(href="/races") Races
+                            li.dropdown
+                                a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='false')
+                                    = 'Races'
+                                    span.caret
+                                ul.dropdown-menu
+                                    if user
+                                        li
+                                            a(href='/races/add') Add Race
+                                    li
+                                        a(href='/races/all') All Races
                             li
                                 a(href="/shop/cars") Cars
                             if user && (user.role === 'administrator' || user.role === 'moderator')

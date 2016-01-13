@@ -14,6 +14,7 @@ router
     .get('/add', racesController.createRaceRender)
     .post('/add', racesController.createRaceAction)
     .get('/all', racesController.listAllRender)
+    .get('/myRaces', racesController.listAllRender)
     .get('/:id', racesController.specificRender)
     .post('/:id/start', racesController.startRace)
     .post('/:id', racesController.joinRace);

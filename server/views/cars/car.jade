@@ -5,7 +5,7 @@ block main-content
             div.row
                 div.col-md-5
                     img.single-car-image(src=car.urlImage)
-                div.col-md-4.car-stats
+                div.col-md-3.car-stats
                     strong='Model: '
                     span=car.model
                     br
@@ -17,7 +17,7 @@ block main-content
                     br
                     strong='Wheels Level: '
                     span=car.wheelsLevel
-                div.col-md-3.car-stats
+                div.col-md-4.car-stats
                     strong='Price: '
                     span=car.price
                     br
@@ -27,6 +27,6 @@ block main-content
                     else
                         .alert.alert-dismissible.alert-success
                             button.close(type='button', data-dismiss='alert') x
-                            span You already have this car!
-                                a(href='/profile/cars') collection.
+                            span You already have this car in your
+                                a(href='/profile/cars') collection!
 
