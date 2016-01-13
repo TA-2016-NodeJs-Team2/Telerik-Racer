@@ -1,15 +1,26 @@
 extends ../includes/layout
 block main-content
-    div(class="container")
-        div(class='row')
-            div(class="col-md-12")
+    .container
+        ul.nav.nav-tabs.big-text
+            li.active
+                a(href='#races', data-toggle='tab', aria-expanded='true') Info
+            li
+                a(href='#all', data-toggle='tab', aria-expanded='false') All races
+            if auser.name
+                li
+                    a(href='#addRace', data-toggle='tab', aria-expanded='false') Add one
+        #myTabContent.tab-content.big-text
+            #races.tab-pane.fade.active.in
                 if auser.name
-                    h3 Lets ride, #{auser.name}!
+                    h1 Lets ride, #{auser.name}!
+                    p Drive your can and see if we will give you some dolla'
                 else
                     h3 That's how we race! Go get a registration and let's see what you're made of!
-                ul
-                    li
-                        a(href="/races/all") See all existing races
-                    if auser.name
-                        li
-                            a(href="/races/add") Create new race
+
+            #all.tab-pane.fade
+                br
+                a(href="/races/all") OK! Here they are.
+
+            #addRace.tab-pane.fade
+                br
+                a(href="/races/add") Create new race

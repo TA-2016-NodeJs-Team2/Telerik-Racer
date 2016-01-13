@@ -15,7 +15,7 @@ module.exports = {
             }
             page = (page * 1) || 1;
             size = (size * 1) || 10;
-            sort = sort || 'asc';
+            sort = sort || 'desc';
             var by = 'dateCreated';
             var sortOpts = {};
             sortOpts[by] = sort;

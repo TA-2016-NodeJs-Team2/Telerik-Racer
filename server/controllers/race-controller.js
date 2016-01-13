@@ -84,7 +84,7 @@ module.exports = function (racesData, carsData, mapsData, usersData) {
                     res.render('race-views/races-all',
                         {
                             races: responseRaces,
-                            sort: req.query.sort,
+                            sort: req.query.sort || 'desc',
                             only: req.query.only,
                             pageSize: pageSize,
                             nextPage: function () {
