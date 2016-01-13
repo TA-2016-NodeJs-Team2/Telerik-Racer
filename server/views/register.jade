@@ -6,9 +6,11 @@ block main-content
                 form(class="form-signin" action='/api/users/register', method="post")
                     h2 Registration is good, failing is not!
                     br
-                    input(id="username" name="username" placeholder="Username" required="required" autofocus="" class="form-control")
+                    input(id="username" name="username" pattern='(^[A-Za-z]{1,})[A-Za-z0-9._-]{5,}' placeholder="Username" required="required" autofocus="" class="form-control")
+                    p.help-block Start with letter, can include numbers, underscore, dash, dot - all at least 6 symbols. NO SPACES
                     br
-                    input(id="password" name="password" placeholder="Password" required="required" class="form-control" type="password")
+                    input(id="password" name="password" pattern='*{6,}' placeholder="Password" required="required" class="form-control" type="password")
+                    p.help-block At least six symbols
                     br
                     button(type="submit" class="btn btn-lg btn-primary btn-block") Sign in
                     br
