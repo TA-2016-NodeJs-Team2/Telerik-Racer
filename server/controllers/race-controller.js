@@ -76,12 +76,23 @@ module.exports = function (racesData, carsData, mapsData, usersData) {
         },
         listAllRender: function (req, res) {
             var racesFromDb = racesData
-                .all(req.query)
+                .all(req.query.page, req.query.size, req.query.sort, req.query.only)
                 .then(function (responseRaces) {
+                    var page = (req.query.page * 1) || 1;
+                    var pageSize = (req.query.size * 1) || 10;
                     res.status(200);
                     res.render('race-views/races-all',
                         {
-                            races: responseRaces
+                            races: responseRaces,
+                            sort: req.query.sort,
+                            only: req.query.only,
+                            pageSize: pageSize,
+                            nextPage: function () {
+                                return page + 1;
+                            },
+                            prevPage: function () {
+                                return page - 1;
+                            }
                         });
                 }, function (err) {
                     res.status(err.status || 400)
