@@ -46,10 +46,10 @@ module.exports = function (dataUsers) {
                 req.user.cars[i].costRepair = moneyForRepair(req.user.cars[i]);
             }
 
-            res.render('profile-cars', {cars: req.user.cars});
+            res.render('profile-views/profile-cars', {cars: req.user.cars});
         },
         userInfo: function (req, res) {
-            res.render('profile', {info: req.user});
+            res.render('profile-views/profile', {info: req.user});
         }
     };
 };

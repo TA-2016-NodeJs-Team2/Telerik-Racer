@@ -7,7 +7,7 @@ module.exports = function (maps) {
         getAll: function (req, res) {
             maps.all(req.query)
                 .then(function (responseMaps) {
-                    res.render('maps', {
+                    res.render('map-views/maps', {
                         maps: responseMaps,
                         query: req.query
                     });
@@ -31,7 +31,7 @@ module.exports = function (maps) {
 
             maps.details(req.params.id)
                 .then(function (responseMap) {
-                    res.render('map-detail', {map: responseMap});
+                    res.render('map-views/map-detail', {map: responseMap});
                 }, function (err) {
                     res.status(err.status || 400)
                         .json({
@@ -81,7 +81,7 @@ module.exports = function (maps) {
 
             maps.save(map)
                 .then(function (responseMar) {
-                    res.redirect('/maps/' + responseMar._id);
+                    res.redirect('map-views/maps/' + responseMar._id);
                 }, function (err) {
                     res.status(err.status || 400)
                         .json({
@@ -90,7 +90,7 @@ module.exports = function (maps) {
                 });
         },
         addForm: function (req, res) {
-            res.render('map-add');
+            res.render('map-views/map-add');
         },
         delete: function (req, res) {
             // Argument passed in must be a single String of 12 bytes or a string of 24 hex characters

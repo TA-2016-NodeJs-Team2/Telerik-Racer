@@ -15,7 +15,7 @@ module.exports = function (data) {
         details: function (req, res) {
             data.details(req.params.id)
                 .then(function (user) {
-                    res.json(user);
+                    res.render('admin-views/user-details', {user: user});
                 }, function (err) {
                     res.status(400)
                         .json({
