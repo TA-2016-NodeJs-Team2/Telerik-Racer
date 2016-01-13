@@ -50,8 +50,8 @@ router
     })
     .get('/users', adminController.all)
     .get('/users/:id', adminController.details)
-    .post('/users/:id', adminController.deleteUser)
-    .put('/users/:id', adminController.updateUser);
+    .post('/users/remove/:id', adminController.deleteUser)
+    .post('/users/:id', adminController.updateUser);
 
 module.exports = function (app) {
     app.use('/api/admin/', passport.authenticate('cookie', {

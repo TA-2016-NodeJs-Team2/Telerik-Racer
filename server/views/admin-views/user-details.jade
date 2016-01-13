@@ -1,0 +1,55 @@
+extends ../includes/layout
+block main-content
+    .container
+        form.form-horizontal(action='/api/admin/users/' + info._id, method='POST')
+            fieldset
+                legend User information
+                .form-group
+                    label.col-lg-2.control-label(for='inputUsername') Username
+                    .col-lg-4
+                        input#inputUsername.form-control(placeholder='username' name='username' value= info.username type='text')
+                .form-group
+                    label.col-lg-2.control-label(for='select') Role
+                    .col-lg-4
+                        select#select.form-control(name='role')
+                            option(value='administrator', selected= (info.role == 'administrator')) Administrator
+                            option(value='moderator', selected= (info.role == 'moderator')) Moderator
+                            option(value='regular', selected= (info.role == 'regular')) Regular
+                .form-group
+                    label.col-lg-2.control-label(for='inputLevel') Level
+                    .col-lg-4
+                        input#inputLevel.form-control(placeholder='Level', name='level' min='1' value= info.level type='number')
+                .form-group
+                    label.col-lg-2.control-label(for='inputMoney') Money
+                    .col-lg-4
+                        div.input-group
+                            span.input-group-addon $
+                            input#inputMoney.form-control(placeholder='$Money$', name='money' min='0' value= info.money type='number')
+                .form-group
+                    label.col-lg-2.control-label(for='inputRespect') Respect
+                    .col-lg-4
+                        input#inputRespect.form-control(placeholder='Respect', name='respect' min='0' value= info.respect type='number')
+                .form-group
+                    label.col-lg-2.control-label(for='inputRespect') Cars
+                    .list-group.col-md-3
+                        each car in info.cars
+                            a.list-group-item(href='/shop/cars/' + car._id, title='Shop')
+                                h4.list-group-item-heading= car.model
+                                img.img-rounded(src= car.urlImage, width='100')
+                                .pull-right
+                                    p.list-group-item-text= 'Price: $' +  car.price
+                                    p.list-group-item-text= 'Wheels lvl: ' +  car.wheelsLevel
+                                    p.list-group-item-text= 'Engine lvl: ' +  car.engineLevel
+                                    p.list-group-item-text= 'Damage: ' +  car.damage
+                .form-group
+                    .col-lg-2.col-lg-offset-3
+                        button.btn.btn-warning.btn-lg(type='submit') Update
+        form.form-horizontal.text-center(action='/api/admin/users/remove/' + info._id, method='POST')
+            fieldset
+                .form-group
+                    .row
+                        .col-lg-2.col-lg-offset-2
+                            button.btn.btn-danger.pull-right(type='submit') Delete
+                    .row
+                        .col-lg-2.col-lg-offset-3
+                            p.help-block There are no undo!

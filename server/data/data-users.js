@@ -63,7 +63,7 @@ module.exports = {
     },
     remove: function (id) {
         return new BBPromise(function (resolve, reject) {
-            User.remove({_id: id}, function (err, rawData) {
+            User.findByIdAndRemove(id).exec( function (err, rawData) {
                 if (err) {
                     return reject({
                         status: 400,
@@ -72,9 +72,7 @@ module.exports = {
                 }
 
                 resolve({
-                    status: rawData.result.ok,
-                    documentsModified: rawData.result.n,
-                    message: rawData.result.n !== 0 ? 'removed!' : 'user not found'
+                    message: 'User removed!'
                 });
             });
         });
