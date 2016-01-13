@@ -119,6 +119,8 @@ module.exports = function (carData) {
                                     icon: constants.controllerImgDir + 'notification_error.png',
                                     time: 2000
                                 });
+
+                                return res.redirect(req.get('referer'));
                             }
                             else if (user.money < car.price) {
                                 // notify no money=
@@ -128,7 +130,7 @@ module.exports = function (carData) {
                                     icon:  constants.controllerImgDir + 'notification_error.png',
                                     time: 2000
                                 });
-                                res.redirect(req.get('referer'));
+                                return res.redirect(req.get('referer'));
                             } else {
                                 user.money -= car.price;
                                 user.cars.push(car);
