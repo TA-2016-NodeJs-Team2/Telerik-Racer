@@ -21,6 +21,7 @@ block main-content
                     strong='Price: '
                     span=car.price
                     br
+                div.col-md-4.car-stats
                     if(auser.canBuy)
                         form(action='/shop/cars/' + car._id + '/buy' method='post' id='buy-car-form')
                             button.btn.btn-primary(type='submit' form="buy-car-form")='Buy Car'
@@ -29,4 +30,8 @@ block main-content
                             button.close(type='button', data-dismiss='alert') x
                             span You already have this car in your
                                 a(href='/profile/cars') collection!
+            .row
+                .pull-right
+                    a.btn.btn-primary(href='/shop/cars/') Back
+
 
