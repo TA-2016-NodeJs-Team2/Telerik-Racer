@@ -22,9 +22,9 @@ block main-content
         .form-group
             .col-md-15
                 .col-md-3.pull-left
-                    button.btn.btn-primary(name='page' value=prevPage() form='filter') <<
+                    button.btn.btn-primary(name='page' disabled=isFirstPage value=prevPage() form='filter') <<
                 .col-md-0.pull-right
-                    button.btn.btn-primary(name='page' value=nextPage() form='filter') >>
+                    button.btn.btn-primary(name='page' disabled=noMoreCars value=nextPage() form='filter') >>
         br
         br
         .panel.panel-primary
@@ -70,10 +70,10 @@ block main-content
         .form-group
             .col-md-15
                 .col-md-3.pull-left
-                    button.btn.btn-primary(name='page' value=prevPage() form='filter') <<
+                    button.btn.btn-primary(name='page' disabled=isFirstPage value=prevPage() form='filter') <<
                 .col-md-6
                     label.control-label.col-lg-3(for='pageSize' ) Page Size
                     .col-lg-6
                         input#pageSize.form-control(type='number', value='#{pageSize}' name='size' form='filter')
                 .col-md-0.pull-right
-                    button.btn.btn-primary(name='page' value=nextPage() form='filter') >>
+                    button.btn.btn-primary(name='page' disabled=noMoreCars value=nextPage() form='filter') >>

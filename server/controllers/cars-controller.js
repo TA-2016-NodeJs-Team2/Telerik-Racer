@@ -74,6 +74,7 @@ module.exports = function (carData) {
                             sort: req.query.sort,
                             by: req.query.by,
                             pageSize: pageSize,
+                            isFirstPage: page == 1,
                             noMoreCars: noMoreCars,
                             nextPage: function () {
                                 return page + 1;
