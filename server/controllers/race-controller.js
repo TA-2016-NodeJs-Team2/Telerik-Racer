@@ -76,12 +76,23 @@ module.exports = function (racesData, carsData, mapsData, usersData) {
         },
         listAllRender: function (req, res) {
             var racesFromDb = racesData
-                .all(req.query)
+                .all(req.query.page, req.query.size, req.query.sort, req.query.only)
                 .then(function (responseRaces) {
+                    var page = (req.query.page * 1) || 1;
+                    var pageSize = (req.query.size * 1) || 10;
                     res.status(200);
                     res.render('race-views/races-all',
                         {
-                            races: responseRaces
+                            races: responseRaces,
+                            sort: req.query.sort || 'desc',
+                            only: req.query.only,
+                            pageSize: pageSize,
+                            nextPage: function () {
+                                return page + 1;
+                            },
+                            prevPage: function () {
+                                return page - 1;
+                            }
                         });
                 }, function (err) {
                     res.status(err.status || 400)
@@ -156,10 +167,24 @@ module.exports = function (racesData, carsData, mapsData, usersData) {
                         canStart = true;
                     }
                     for (var user of
-                        responseRace.users
-                        ) {
+                    responseRace.users
+                    )
+                    {
                         if (user === currentUser.username) {
                             canJoin = false;
+                        }
+                    }
+
+                    var winners = [];
+
+                    if(responseRace.winners.length !== 0){
+                        for(var i = 0; i< responseRace.winners.length; i++){
+                            var chunks = responseRace.winners[i].split("|");
+                            winners.push({
+                                username: chunks[0],
+                                money: chunks[1],
+                                respect: chunks[2]
+                            });
                         }
                     }
 
@@ -169,10 +194,12 @@ module.exports = function (racesData, carsData, mapsData, usersData) {
                             id: req.params.id,
                             configuration: {
                                 canStart: canStart,
-                                canJoin: canJoin
+                                canJoin: canJoin,
+                                finished: responseRace.status !== "Waiting for opponents"
                             },
                             race: responseRace,
-                            date: moment(responseRace.dateCreated).format(' Do MMMM YYYY, h:mm:ss a')
+                            date: moment(responseRace.dateCreated).format(' Do MMMM YYYY, h:mm:ss a'),
+                            winners: winners
                         });
                 }, function (err) {
                     res.status(err.status || 400)
@@ -194,8 +221,9 @@ module.exports = function (racesData, carsData, mapsData, usersData) {
                     var canJoin = true;
 
                     for (var user of
-                        responseRace.users
-                        ) {
+                    responseRace.users
+                    )
+                    {
                         if (user === currentUser.username) {
                             canJoin = false;
                         }
@@ -283,18 +311,24 @@ module.exports = function (racesData, carsData, mapsData, usersData) {
                                                     }
                                                     var winnersIndexes = GetWinners(carsFromDb, winnersToGet);
 
+                                                    var winnersToSave = [];
+
                                                     for (var j = 0; j < winnersIndexes.length; j++) {
                                                         usersFromDb[winnersIndexes[j]].money += responseMap.prizes[j];
                                                         usersFromDb[winnersIndexes[j]].respect += responseMap.respectGiven[j];
                                                         usersFromDb[winnersIndexes[j]].save();
+                                                        winnersToSave.push(usersFromDb[winnersIndexes[j]].username + "|" + responseMap.prizes[j] + "|" + responseMap.respectGiven[j]);
                                                     }
 
                                                     for (var y = 0; y < countOfCompetitors; y++) {
                                                         carsFromDb[y].save();
                                                     }
-                                                    console.log(carsFromDb);
-                                                    res.status(200);
-                                                    res.json("Brao! Pobeditel e: " + usersFromDb[winnersIndexes[0]].username);
+                                                    responseRace.status = 'Finished';
+                                                    responseRace.winners = winnersToSave;
+                                                    console.log(winnersToSave);
+                                                    responseRace.save();
+                                                    res.status(300);
+                                                    res.redirect(req.get('referer'));
                                                 }
                                             });
                                     }
