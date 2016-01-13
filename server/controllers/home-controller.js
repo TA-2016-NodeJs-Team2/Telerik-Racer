@@ -3,7 +3,8 @@
 var mongoose = require('mongoose'),
     Car = mongoose.model('Car'),
     User = mongoose.model('User'),
-    Race = mongoose.model('Race');
+    Race = mongoose.model('Race'),
+    constants = require('../common/constants');
 
 module.exports = function () {
     return {
@@ -42,6 +43,15 @@ module.exports = function () {
                     })
                 })
             });
+        },
+        unauthorised: function(req,res,next) {
+            res.status(401);
+            res.render('unauthorised',
+                {
+                    imgUrl: 'http://s3.amazonaws.com/einstein-blog-live/public/uploads/images/44725/crash_photo.jpg',
+                    message: "Ooops, you have took a wrong turn! Please log in, because you are not authorised to view this page!"
+                }
+            );
         }
     };
 };

@@ -39,7 +39,7 @@ router.get('/all', mapsController.getAll)
         }
 
         // Page that says: permissions required;
-        res.redirect('/all');
+        res.redirect('/unauthorised');
     }, mapsController.delete)
     .post('/add', mapsController.add)
     .get('/*', function (req, res) {
@@ -48,7 +48,7 @@ router.get('/all', mapsController.getAll)
 
 module.exports = function (app) {
     app.use('/maps', passport.authenticate('cookie', {
-        failureRedirect: '/home',
+        failureRedirect: '/unauthorised',
         session: false
     }), router);
 };

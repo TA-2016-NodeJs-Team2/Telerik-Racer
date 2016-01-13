@@ -19,6 +19,14 @@ block main-content
                     .col-lg-12.col-lg-offset-10
                         button.btn.btn-primary Submit
                         button.btn.btn-default(type='reset') Cancel
+        .form-group
+            .col-md-15
+                .col-md-3.pull-left
+                    button.btn.btn-primary(name='page' value=prevPage() form='filter') <<
+                .col-md-0.pull-right
+                    button.btn.btn-primary(name='page' value=nextPage() form='filter') >>
+        br
+        br
         .panel.panel-primary
             .panel-heading
                 h3.white-text=message
@@ -30,18 +38,29 @@ block main-content
                         th.col-md-4 Stats
                     each val in cars
                         tr
-                            td.text-center
+                            td.centered
                                 img.img-responsive.img-circle.car-image-shop(src=val.urlImage)
-                            td.text-center
-                                div= '$' + val.price
-                            td.text-center
-                                ul
-                                    li='Level required: ' + val.levelRequired
-                                    li='Turbo: ' + val.turbo
-                                    li='Engine Level: ' + val.engineLevel
-                                    li='Wheels Level: ' + val.wheelsLevel
-                                    li='Model: ' + val.model
-                            td.text-center
+                            td.centered
+                                div
+                                    strong.car-stats='$' + val.price
+                            td.stats
+                                ul.list-group
+                                    li.list-group-item
+                                        strong.pull-left= 'Level required: '
+                                        span= val.levelRequired
+                                    li.list-group-item
+                                        strong.pull-left= 'Turbo: '
+                                        span= val.turbo
+                                    li.list-group-item
+                                        strong.pull-left='Engine Level: '
+                                        span= val.engineLevel
+                                    li.list-group-item
+                                        strong.pull-left= 'Wheels Level: '
+                                        span= val.wheelsLevel
+                                    li.list-group-item
+                                        strong.pull-left= 'Model: '
+                                        span= val.model
+                            td.centered
                                 //a.btn.btn-primary(href='/shop/cars/' + val._id + '/buy')='Buy'
                                 a.btn.btn-primary(href='/shop/cars/' + val._id)='Show more'
         .form-group
