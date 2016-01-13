@@ -9,6 +9,8 @@ var express = require('express'),
 router
     .get('/', profileController.userInfo)
     .get('/cars', profileController.listCars)
+    .get('/races', profileController.listRacesUserCreated)
+    .get('/races/in', profileController.listRacesUserInludedIn)
     .post('/cars/repair', profileController.repair);
 
 module.exports = function (app) {
