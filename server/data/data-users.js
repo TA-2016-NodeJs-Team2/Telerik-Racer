@@ -2,6 +2,7 @@
 
 var mongoose = require('mongoose'),
     User = mongoose.model('User'),
+    RaceModel = mongoose.model('Race'),
     BBPromise = require('bluebird'),
     SHA256 = require('crypto-js/sha256');
 
@@ -122,6 +123,18 @@ module.exports = {
 
                 resolve(rowAffected);
             });
+        });
+    },
+    racesCreatedByUser: function (username) {
+        return new BBPromise(function (resolve, reject) {
+           RaceModel.find({creator: username})
+                .exec(function (err, races) {
+                   if (err) {
+                   	   return reject(err);
+                   }
+
+                    resolve(races);
+                });
         });
     },
     repairCar: function (user, car, repairCost) {

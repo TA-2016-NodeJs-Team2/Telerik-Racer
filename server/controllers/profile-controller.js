@@ -4,6 +4,7 @@ function moneyForRepair(car) {
     var twentyPercentFormPrice = (car.price / 100) * 20;
     return (twentyPercentFormPrice / 100) * car.damage;
 }
+var moment = require('moment');
 
 module.exports = function (dataUsers) {
     return {
@@ -39,6 +40,29 @@ module.exports = function (dataUsers) {
                     res.send(error);
                 });
 
+        },
+        listRacesUserCreated: function (req, res) {
+            dataUsers.racesCreatedByUser(req.user.username)
+                .then(function (races) {
+                    for (var i = 0; i < races.length; i += 1) {
+                        races[i].date = moment(races[i].dateCreated).format(' Do MMMM YYYY, HH:mm:ss a');
+                        var winnersss = [];
+                        for (var j = 0, len = races[i].winners? races[i].winners.length : 0; j < len; j += 1) {
+                            console.log(races[i].winners[j]);
+                            var chunks = races[i].winners[j].split("|");
+                            winnersss.push({
+                                name: chunks[0],
+                                prize: chunks[1],
+                                respect: chunks[2]
+                            });
+                        }
+
+                        races[i].w = winnersss;
+                    }
+                    return res.render('profile-views/profile-races', {races: races});
+                }, function (err) {
+                    return res.json(err);
+                });
         },
         listCars: function (req, res) {
 
