@@ -16,6 +16,11 @@ html
                         a.navbar-brand(href="/") TA Racer
                     .navbar-collapse.collapse
                         ul.nav.navbar-nav
+                            li
+                                a(href="/shop/cars") Cars
+                            if user && (user.role === 'administrator' || user.role === 'moderator')
+                                li
+                                    a(href="/maps") Maps
                             li.dropdown
                                 a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='false')
                                     = 'Races'
@@ -26,11 +31,7 @@ html
                                             a(href='/races/add') Add Race
                                     li
                                         a(href='/races/all') All Races
-                            li
-                                a(href="/shop/cars") Cars
-                            if user && (user.role === 'administrator' || user.role === 'moderator')
-                                li
-                                    a(href="/maps") Maps
+
                             if user && user.role === 'administrator'
                                 li.dropdown
                                     a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='false')
