@@ -12,9 +12,11 @@ block main-content
                 div.col-md-2
                     h3 Permissions
                 case info.role
+                    when 'regular'
+                        h3 Regular
                     when 'administrator'
                         dic.col-md-4
-                            h3 Full CRUD Operations
+                            h3 Full
                     when 'moderator'
                         h3 Access to maps and cars
             div.row

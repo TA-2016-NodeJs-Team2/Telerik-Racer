@@ -1,5 +1,8 @@
 'use strict';
 
+var constants = require('../common/constants'),
+    notifier = require('node-notifier');
+
 function moneyForRepair(car) {
     var twentyPercentFormPrice = (car.price / 100) * 20;
     return (twentyPercentFormPrice / 100) * car.damage;
@@ -27,18 +30,21 @@ module.exports = function (dataUsers) {
             var repairCost = moneyForRepair(car);
 
             if (req.user.money < repairCost) {
-                return res.json({
-                    message: 'You need more money'
+                notifier.notify({
+                    'title': 'Error',
+                    'message': 'You need more money',
+                    icon: constants.controllerImgDir + 'notification_error.png'
                 });
+                res.redirect(req.get('referer'));
             }
-
-            dataUsers.repairCar(req.user, car, repairCost)
-                .then(function (success) {
-                    res.redirect('/profile/cars');
-                }, function (error) {
-                    res.send(error);
-                });
-
+            else {
+                dataUsers.repairCar(req.user, car, repairCost)
+                    .then(function (success) {
+                        res.redirect('/profile/cars');
+                    }, function (error) {
+                        res.json(error);
+                    });
+            }
         },
         listCars: function (req, res) {
 
