@@ -42,6 +42,7 @@ module.exports = function (data) {
 
             data.save(user)
                 .then(function (readyUser) {
+                    notifyConfig.title = 'Success';
                     notifyConfig.icon = path.join(__dirname, '../../imgs/', 'notification_success.png');
                     notifyConfig.message = 'Success now you must login';
                     notifier.notify(notifyConfig);
@@ -80,6 +81,7 @@ module.exports = function (data) {
                     var date = new Date();
                     date.setHours(date.getHours() + constants.cookieHours);
 
+                    notifyConfig.title = 'Success';
                     notifyConfig.icon = path.join(__dirname, '../../imgs/', 'notification_success.png');
                     notifyConfig.message = 'Welcome ' + user.username;
                     notifier.notify(notifyConfig);
@@ -87,6 +89,8 @@ module.exports = function (data) {
                     res.cookie('Authorization', 'Bearer ' + user.token, {expires: date});
                     res.redirect('/home');
                 }, function (error) {
+
+                    notifyConfig.title = 'Success';
                     notifyConfig.message = error.message;
                     notifier.notify(notifyConfig);
                     res.status(error.status || 400)
