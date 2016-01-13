@@ -56,6 +56,12 @@ module.exports = function (carData) {
                 .then(function (cars) {
                     var page = (req.query.page * 1) || 1;
                     var pageSize = (req.query.size * 1) || 10;
+                    var noMoreCars = false;
+                    if (cars.length == 0 && (page) * pageSize > (cars.length + ((page-1) * pageSize))) {
+                        console.log(cars.length);
+                        noMoreCars = true;
+                    }
+
                     res.status(200);
                     res.render('cars/all-cars',
                         {
@@ -68,6 +74,7 @@ module.exports = function (carData) {
                             sort: req.query.sort,
                             by: req.query.by,
                             pageSize: pageSize,
+                            noMoreCars: noMoreCars,
                             nextPage: function () {
                                 return page + 1;
                             },

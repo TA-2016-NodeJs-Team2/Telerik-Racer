@@ -37,32 +37,36 @@ block main-content
                         th.col-md-4 Price
                         th.col-md-4 Stats
                     each val in cars
-                        tr
-                            td.centered
-                                img.img-responsive.img-circle.car-image-shop(src=val.urlImage)
-                            td.centered
-                                div
-                                    strong.car-stats='$' + val.price
-                            td.stats
-                                ul.list-group
-                                    li.list-group-item
-                                        strong.pull-left= 'Level required: '
-                                        span= val.levelRequired
-                                    li.list-group-item
-                                        strong.pull-left= 'Turbo: '
-                                        span= val.turbo
-                                    li.list-group-item
-                                        strong.pull-left='Engine Level: '
-                                        span= val.engineLevel
-                                    li.list-group-item
-                                        strong.pull-left= 'Wheels Level: '
-                                        span= val.wheelsLevel
-                                    li.list-group-item
-                                        strong.pull-left= 'Model: '
-                                        span= val.model
-                            td.centered
-                                //a.btn.btn-primary(href='/shop/cars/' + val._id + '/buy')='Buy'
-                                a.btn.btn-primary(href='/shop/cars/' + val._id)='Show more'
+                        if !noMoreCars
+                            tr
+                                td.centered
+                                    img.img-responsive.img-circle.car-image-shop(src=val.urlImage)
+                                td.centered
+                                    div
+                                        strong.car-stats='$' + val.price
+                                td.stats
+                                    ul.list-group
+                                        li.list-group-item
+                                            strong.pull-left= 'Level required: '
+                                            span= val.levelRequired
+                                        li.list-group-item
+                                            strong.pull-left= 'Turbo: '
+                                            span= val.turbo
+                                        li.list-group-item
+                                            strong.pull-left='Engine Level: '
+                                            span= val.engineLevel
+                                        li.list-group-item
+                                            strong.pull-left= 'Wheels Level: '
+                                            span= val.wheelsLevel
+                                        li.list-group-item
+                                            strong.pull-left= 'Model: '
+                                            span= val.model
+                                td.centered
+                                    //a.btn.btn-primary(href='/shop/cars/' + val._id + '/buy')='Buy'
+                                    a.btn.btn-primary(href='/shop/cars/' + val._id)='Show more'
+                if noMoreCars
+                        .centered.jumbotron="No more cars."
+
         .form-group
             .col-md-15
                 .col-md-3.pull-left

@@ -33,9 +33,6 @@ module.exports = {
             sortOpts[by] = sort;
 
             Car.count().exec(function (err, number) {
-                if ((page - 1) * size >= number) {
-                    page = Math.ceil(number / size);
-                }
                 Car.find()
                     .skip((page - 1) * size)
                     .limit(size * 1)
