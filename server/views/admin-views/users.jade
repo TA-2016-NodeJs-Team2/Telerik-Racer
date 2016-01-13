@@ -1,0 +1,18 @@
+extends ../includes/layout
+block main-content
+    .container
+        h2 Users
+        each u in users
+            div.col-md-3
+                a.list-group-item.text-center.list-group-item-info(href='/api/admin/users/' + u._id)
+                    h4= u.username
+                    table.table.table-striped
+                        tr
+                            td Role
+                            td= u.role
+                        tr
+                            td Level
+                            td= u.level
+                        tr
+                            td Money
+                            td= '$' + u.money
