@@ -1,8 +1,55 @@
 extends includes/layout
 block main-content
+    .container
+        .jumbotron.text-center
+            h1=welcomeMessage
+            h4=notSoImportant
+    br
+    .container
+        ul.nav.nav-tabs.big-text
+            li.active
+                a(href='#cars', data-toggle='tab', aria-expanded='true') Cars
+            li
+                a(href='#races', data-toggle='tab', aria-expanded='false') Races
+            li
+                a(href='#maps', data-toggle='tab', aria-expanded='false') Maps
+        #myTabContent.tab-content.big-text
+            #cars.tab-pane.fade.active.in
+                p
+                    | Cars are a big part of racing in this game. Here is a list of things you can do with the cars:
+                    ul
+                        li='Buy'
+                        li='Upgrade'
+                        li='Show off, because you have the most expensive one?'
+            #races.tab-pane.fade
+                p
+                    | What good do sports cars... upgraded sports car do if not used for racing? Challenge your friends or random foes to a car race in which only the best car could win!
+            #maps.tab-pane.fade
+                p
+                    | Different maps, different opportunities, different circumstances. No car is able to win all the races. It is important to choose your car carefully!
+    br
     div(class="container")
-        div(class='row')
-            div(class="col-md-12")
-                if auser.authorized
-                    p= auser.name
-                p= message
+        if auser
+            div(class='row')
+                div(class="col-md-15")
+                    if auser.authorized
+                        .col-md-offset-0
+                            a.btn.btn-primary.btn-lg(href='/races/add')='Add a race'
+        br
+        div.row
+            .panel.panel-primary
+                .panel-heading
+                    h3.white-text=message
+                .panel-body
+                    table.table.table-bordered
+                        tr
+                            th.col-md-4 All Cars
+                            th.col-md-4 All Users
+                            th.cold-md-4 All Races
+                        tr
+                            td.text-center
+                               div=carsStats
+                            td.text-center
+                                div=userStats
+                            td.text-center
+                                div=raceStats
