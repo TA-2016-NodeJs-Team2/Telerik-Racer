@@ -13,7 +13,7 @@ block main-content
                 tr
                     td= '#' + (i + 1)
                     td= race.date
-                    if race.winners
+                    if race.w && !!race.w.length
                         td
                             table.table
                                 tr
