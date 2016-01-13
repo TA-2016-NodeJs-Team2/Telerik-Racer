@@ -5,18 +5,46 @@ var mongoose = require('mongoose'),
     BBPromise = require('bluebird');
 
 module.exports = {
-    all: function (query) {
+    all: function (page, size, sort, only) {
         return new BBPromise(function (resolve, reject) {
+            if (page * 1 < 0) {
+                page = 0;
+            }
+            if (size * 1 < 0) {
+                size = 0;
+            }
+            page = (page * 1) || 1;
+            size = (size * 1) || 10;
+            sort = sort || 'desc';
+            var by = 'dateCreated';
+            var sortOpts = {};
+            sortOpts[by] = sort;
+
+            only = only || 'start';
+
             RaceModel.find({})
-                .skip((query.page - 1) * query.size)
-                .limit(1*query.size)
-                .sort(query.by)
+                .skip((page - 1) * size)
+                .limit(1*size)
+                .sort(sortOpts)
                 .exec(function (err, races) {
                     if (err) {
                         return reject(err);
                     }
+                    var racesToShow = [];
 
-                    resolve(races);
+                    for(var i=0; i<races.length; i++){
+                        if(only === 'start'){
+                            if(races[i].status === 'Waiting for opponents'){
+                                racesToShow.push(races[i]);
+                            }
+                        }else{
+                            if(races[i].status !== 'Waiting for opponents'){
+                                racesToShow.push(races[i]);
+                            }
+                        }
+                    }
+
+                    resolve(racesToShow);
                 });
         });
     },

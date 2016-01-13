@@ -1,13 +1,57 @@
 extends ../includes/layout
 block main-content
     div(class="container")
+        form.form-horizontal(action='/races/all' method='GET' id='filter')
+            fieldset
+                legend Filter
+                .form-group
+                    label.col-lg-1.control-label(for='sort') List
+                    .col-lg-3
+                        select#sort.form-control(name='sort')
+                            option(value='asc' selected=sort == 'asc') Ascending
+                            option(value='desc', selected=sort == 'desc') Descending
+
+                    label.col-lg-1.control-label(for='only') Show
+                    .col-lg-3
+                        select#by.form-control(name='only')
+                            option(value='start' selected=only == 'start') Not started
+                            option(value='finish' selected=only == 'finish') Finished
+                .form-group
+                    .col-lg-12.col-lg-offset-10
+                        button.btn.btn-primary Submit
+
+        br
+        br
+
+        div(clas='row')
+            .form-group
+                .col-md-15
+                    .col-md-3.pull-left
+                        button.btn.btn-primary(name='page' value=prevPage() form='filter') <<
+                    .col-md-6
+                        label.control-label.col-lg-3(for='pageSize' ) Page Size
+                        .col-lg-6
+                            input#pageSize.form-control(type='number', value='#{pageSize}' name='size' form='filter')
+                    .col-md-0.pull-right
+                        button.btn.btn-primary(name='page' value=nextPage() form='filter') >>
+        br
+        br
+        br
+
         div(class='row')
-            div(class="col-md-12")
-                h3 All available races for joining
-                ul
-                for singleRace in races
-                    li
-                        if singleRace.users.length == 1
-                            a(href='#{singleRace._id}') Race on #{singleRace.map} and #{singleRace.users.length} driver
-                        else
-                            a(href='#{singleRace._id}') Race on #{singleRace.map} and #{singleRace.users.length} drivers
+            .panel.panel-primary
+                .panel-heading
+                    h3.white-text All available races for joining
+                .panel-body
+                    table.table.table-bordered
+                        tr
+                            th.col-md-4.centered Map
+                            th.col-md-4.centered # of joined users
+                            th.col-md-4.centered Race
+
+                        for singleRace in races
+                            tr
+                                td.centered #{singleRace.map}
+                                td.centered #{singleRace.users.length}
+                                td.centered
+                                    a(href='#{singleRace._id}') See details here

@@ -1,35 +1,52 @@
 extends ../includes/layout
 block main-content
     div(class="container")
-        div(class='row')
-            div(class="col-md-12")
-                h3 Are you fast enough for here?
-                br
-                h4 On map: #{race.map}
-                br
-                h4 Date initialized: #{date}
-                br
-                h4 Creator: #{race.creator}
-                br
-                if configuration.canJoin
-                    div(class="row")
-                        div(class="col-md-4 col-md-offset-4")
-                            h4 Wanna join?
-                            form(action='/races/#{id}', method="post")
-                                select(class="form-control" id="car" name="car")
-                                    option(value="") Choose your car for this race
-                                    for car in cars
-                                        option(value=car._id) #{car.model}
-                                br
-                                button(type="submit" class="btn btn-lg btn-primary btn-block") Join
-                if configuration.canStart
-                    div(class="row")
-                        div(class="col-md-4 col-md-offset-4")
-                            h4 Wanna start it?
-                            form(action='/races/#{id}/start', method="post")
-                                button(type="submit" class="btn btn-lg btn-primary btn-block") Lets go!
+        if configuration.finished
+            div(class='row')
+                div(class="col-md-12")
+                    h3 Race finished!
+                    br
+                    h4 On map: #{race.map}
+                    br
+                    h4 Date initialized: #{date}
+                    br
+                    h4 Creator: #{race.creator}
+                    br
 
-                p Users joined so far
-                ul
-                    for user in race.users
-                        li #{user}
+                    p Winners:
+                    ol
+                        for winner in winners
+                            li #{winner.username} won #{winner.money} money and #{winner.respect} respect!
+        else
+            div(class='row')
+                div(class="col-md-12")
+                    h3 Are you fast enough for here?
+                    br
+                    h4 On map: #{race.map}
+                    br
+                    h4 Date initialized: #{date}
+                    br
+                    h4 Creator: #{race.creator}
+                    br
+                    if configuration.canJoin
+                        div(class="row")
+                            div(class="col-md-4 col-md-offset-4")
+                                h4 Wanna join?
+                                form(action='/races/#{id}', method="post")
+                                    select(class="form-control" id="car" name="car")
+                                        option(value="") Choose your car for this race
+                                        for car in cars
+                                            option(value=car._id) #{car.model}
+                                    br
+                                    button(type="submit" class="btn btn-lg btn-primary btn-block") Join
+                    if configuration.canStart
+                        div(class="row")
+                            div(class="col-md-4 col-md-offset-4")
+                                h4 Wanna start it?
+                                form(action='/races/#{id}/start', method="post")
+                                    button(type="submit" class="btn btn-lg btn-primary btn-block") Lets go!
+
+                    p Users joined so far
+                    ul
+                        for user in race.users
+                            li #{user}

@@ -19,7 +19,8 @@ var schema = new mongoose.Schema({
     },
     mapId: {
         type: String
-    }
+    },
+    winners: [String]
 });
 
 mongoose.model('Race', schema);
