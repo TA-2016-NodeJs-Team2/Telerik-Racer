@@ -112,13 +112,20 @@ module.exports = function (carData) {
                         .exec(function (err, user) {
                             if (err) throw err;
 
-                            if (user.money < car.price) {
+                            if(user.level < car.levelRequired){
+                                notifier.notify({
+                                    'title': 'Error',
+                                    'message': 'You are not high enough level!',
+                                    icon: constants.controllerImgDir + 'notification_error.png',
+                                    time: 2000
+                                });
+                            }
+                            else if (user.money < car.price) {
                                 // notify no money=
-                                var imgDir = path.join(__dirname, '../../imgs/', 'notification_error.png');
                                 notifier.notify({
                                     'title': 'Error',
                                     'message': 'Not enough money!',
-                                    icon: imgDir,
+                                    icon:  constants.controllerImgDir + 'notification_error.png',
                                     time: 2000
                                 });
                                 res.redirect(req.get('referer'));
@@ -128,11 +135,10 @@ module.exports = function (carData) {
                                 user.save();
 
                                 // Notify successfully bought. Redirect?
-                                var imgDir = path.join(__dirname, '../../imgs/', 'notification_success.png');
                                 notifier.notify({
                                     'title': 'Success',
                                     'message': 'Car was successfully added to your collection, racer!',
-                                    icon: imgDir,
+                                    icon: constants.controllerImgDir +  'notification_success.png',
                                     time: 2000
                                 });
                                 res.redirect('/profile/cars/');
