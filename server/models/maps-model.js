@@ -26,7 +26,9 @@ var schema = new mongoose.Schema({
         type: [Number]
     },
     damageToTake: {
-        type: Number
+        type: Number,
+        min: 0,
+        max: 100
     },
     date: {
         type: Date

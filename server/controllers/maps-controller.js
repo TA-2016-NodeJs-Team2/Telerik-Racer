@@ -73,6 +73,13 @@ module.exports = function (maps, notifier) {
                 }
             }
 
+            if (map.damageToTake > 100) {
+                notifyError.message = 'Map damage can be from 0 to 100';
+                notifier.notify(notifyError);
+                return res.status(400)
+                    .redirect('/maps/add');
+            }
+
             if (map.prizes.length !== minLength ||
                 map.respectGiven.length !== minLength) {
 
@@ -91,12 +98,12 @@ module.exports = function (maps, notifier) {
 
             maps.save(map)
                 .then(function (responseMar) {
-                    res.redirect('map-views/maps/' + responseMar._id);
+                    res.redirect('/maps/' + responseMar._id);
                 }, function (err) {
+                    notifyError.message = 'Cannot save map!';
+                    notifier.notify(notifyError);
                     res.status(err.status || 400)
-                        .json({
-                            message: err.message
-                        });
+                        .redirect('/maps/add');
                 });
         },
         addForm: function (req, res) {
@@ -115,10 +122,11 @@ module.exports = function (maps, notifier) {
                 .then(function (result) {
                     res.redirect('/maps/all');
                 }, function (err) {
+
+                    notifyError.message = err.message;
+                    notifier.notify(notifyError);
                     res.status(err.status || 400)
-                        .json({
-                            message: err.message
-                        });
+                        .redirect(req.get('referer'));
                 });
         }
     };

@@ -170,8 +170,6 @@ describe('Maps controller test', function () {
             done();
         });
 
-
-
         it('should redirect to /maps/add when wrong/invalid data provided', function (done) {
             var res = {
                 redirect: sinon.spy(),
@@ -193,7 +191,7 @@ describe('Maps controller test', function () {
                     respect3: 23,
                     respect4: 23,
                     respect5: 14,
-                    damageToTake: 300
+                    damageToTake: 99
                 }
             };
 
@@ -207,6 +205,118 @@ describe('Maps controller test', function () {
             done();
         });
 
+        it('should return to add form when damage is too high', function (done) {
+            var res = {
+                redirect: sinon.spy(),
+                status: function (status) {
+                    return this;
+                }
+            };
+
+            var req = {
+                body: {
+                    prize1: 130,
+                    prize2: 233,
+                    prize3: 230,
+                    prize4: 140,
+                    prize5: 340,
+                    name: 'Test Map',
+                    respect1: 1,
+                    respect2: 123,
+                    respect3: 23,
+                    respect4: 23,
+                    respect5: 14,
+                    damageToTake: 300
+                }
+            };
+
+            mapsController.add(req, res);
+
+            sinon.assert.callCount(res.redirect, 1);
+            sinon.assert.calledWith(res.redirect, '/maps/add');
+            sinon.assert.pass(fakeNotifier.notify.calledBefore(res.redirect));
+            sinon.assert.calledWithMatch(fakeNotifier.notify, {message : 'Map damage can be from 0 to 100'});
+            sinon.assert.pass(fakeNotifier.countCalled === 1);
+            done();
+        });
+
+        it('should success save the map and return to page details', function (done) {
+            var res = {
+                redirect: sinon.spy(),
+                status: function (status) {
+                    return this;
+                }
+            };
+
+            var req = {
+                body: {
+                    prize1: 130,
+                    prize2: 233,
+                    prize3: 230,
+                    prize4: 140,
+                    prize5: 340,
+                    name: 'Test Map',
+                    respect1: 1,
+                    respect2: 123,
+                    respect3: 23,
+                    respect4: 23,
+                    respect5: 14,
+                    damageToTake: 55
+                }
+            };
+
+            mapsController.add(req, res);
+
+            sinon.assert.callCount(res.redirect, 1);
+            sinon.assert.calledWith(res.redirect, '/maps/' + 'ADF2354F4CADF2354F4CADF2354F4C');
+            done();
+        });
+
+        it('should notify for error when deleting map fails', function (done) {
+            var res = {
+                redirect: sinon.spy(),
+                status: function (status) {
+                    return this;
+                }
+            };
+
+            var req = {
+                params: {
+                    id: 'ADF2354F4CADF2354F4CADF2'
+                },
+                get: function myFunc() {
+
+                },
+            };
+
+            sinon.stub(req, 'get').returns("myurl.com");
+            mapsController.delete(req, res);
+
+            sinon.assert.callCount(req.get, 1);
+            sinon.assert.calledWith(res.redirect, "myurl.com");
+            sinon.assert.pass(fakeNotifier.countCalled === 1);
+            done();
+        });
+
+        it('should success delete map', function (done) {
+            var res = {
+                redirect: sinon.spy(),
+                status: function (status) {
+                    return this;
+                }
+            };
+
+            var req = {
+                params: {
+                    id: 'BDF2354F4CADF2354F4CADF2'
+                }
+            };
+
+            mapsController.delete(req, res);
+
+            sinon.assert.calledWith(res.redirect, '/maps/all');
+            done();
+        });
         afterEach(function () {
             fakeNotifier.countCalled = 0;
         });
