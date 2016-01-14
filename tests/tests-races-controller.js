@@ -1,19 +1,27 @@
 /*globals describe, before, it, assert*/
 
-var carsData = require('./mock-races');
+var racesData = require('./mock-races');
+var mapsData = require('./mock-maps');
+var carsData = require('./mock-cars');
+var usersData = require('./mock-users');
 var sinon = require('sinon');
-var racesController = require('../server/controllers/race-controller')(carsData, {}, {}, {});
+var racesController = require('../server/controllers/race-controller')(racesData, carsData, mapsData, usersData);
 
-describe('Cars controller test', function () {
+describe('Races controller test', function () {
     'use strict';
 
-    /*//1
+    //1
     it('should return rendered form', function (done) {
 
         var expectedValue = 'race-views/races-add';
         var res = {
             render: function (viewPath) {
+                assert.equal(viewPath, expectedValue);
+
                 return viewPath;
+            },
+            status: function (status) {
+                return status;
             }
         };
 
@@ -26,9 +34,9 @@ describe('Cars controller test', function () {
                 }
             }
     }, res);
-        assert.equal(result, expectedValue);
+
         done();
-    });*/
+    });
 
     //2
     it('should return redirect because of not authorised user - route for adding a race, view part', function (done) {
@@ -240,6 +248,152 @@ describe('Cars controller test', function () {
         }, res);
 
 
+        done();
+    });
+
+    //8
+    it('it should be able to join race', function (done) {
+
+        var expectedValue = '123';
+        var res = {
+            redirect: function (pathFromRedirect) {
+                assert.equal(pathFromRedirect, expectedValue);
+                return pathFromRedirect;
+            },
+        };
+
+        var result = racesController.joinRace({
+            app : {
+                locals:{
+                    user: {
+                        username: "TestWithDifferentName"
+                    }
+                }
+            },
+            body:{
+                car: 'Some car'
+            },
+            params:{
+                id : '123'
+            },
+            get : function(askedValue){
+                return askedValue;
+            }
+        }, res);
+
+
+        done();
+    });
+
+    //9
+    it('it should NOT start someone elses race', function (done) {
+
+        var expectedValue = 'referer';
+        var res = {
+            redirect: function (pathFromRedirect) {
+                assert.equal(pathFromRedirect, expectedValue);
+                return pathFromRedirect;
+            },
+            status: function(status){
+                return status;
+            }
+        };
+
+        var result = racesController.startRace({
+            app : {
+                locals:{
+                    user: {
+                        username: "TestWithDifferentName"
+                    }
+                }
+            },
+            body:{
+                car: 'Some car'
+            },
+            params:{
+                id : '123'
+            },
+            get : function(askedValue){
+                return askedValue;
+            }
+        }, res);
+
+
+        done();
+    });
+
+    //10
+    it('it should NOT start your race without opponents', function (done) {
+
+        var expectedValue = 'referer';
+        var res = {
+            redirect: function (pathFromRedirect) {
+                assert.equal(pathFromRedirect, expectedValue);
+                return pathFromRedirect;
+            },
+            status: function(status){
+                return status;
+            }
+        };
+
+        var result = racesController.startRace({
+            app : {
+                locals:{
+                    user: {
+                        username: "TestCreator"
+                    }
+                }
+            },
+            body:{
+                car: 'Some car'
+            },
+            params:{
+                id : '123'
+            },
+            get : function(askedValue){
+                return askedValue;
+            }
+        }, res);
+
+
+        done();
+    });
+
+    //10
+    it('it should race when all data is there', function (done) {
+
+        var expectedValue = '300';
+
+        var res = {
+            redirect: function (pathFromRedirect) {
+                return pathFromRedirect;
+            },
+            status: function(status){
+                assert.equal(status, expectedValue);
+                return status;
+            }
+
+        };
+
+
+        var result = racesController.startRace({
+            app : {
+                locals:{
+                    user: {
+                        username: "TestCreator"
+                    }
+                }
+            },
+            body:{
+                car: 'Some car'
+            },
+            params:{
+                id : '124'
+            },
+            get : function(askedValue){
+                return askedValue;
+            }
+        }, res);
         done();
     });
 });
