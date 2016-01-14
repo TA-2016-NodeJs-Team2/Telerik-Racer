@@ -4,7 +4,8 @@
   "description": "A car system for a races and tournaments",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "nodemon server.js",
+    "test": "mocha tests --requre tests/config.js"
   },
   "repository": {
     "type": "git",
