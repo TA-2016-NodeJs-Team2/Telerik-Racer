@@ -264,12 +264,14 @@ module.exports = function (racesData, carsData, mapsData, usersData) {
                     responseRace.cars.push(req.body.car);
                     responseRace.users.push(currentUser.username);
                     responseRace.usersIds.push(currentUser._id);
+
                     var result = responseRace.save(function (err, race) {
                         if (err) {
                             res.status(500);
                             res.json(err);
                             return;
                         }
+
                         res.redirect(req.params.id);
                     });
                 }, function (err) {
@@ -295,16 +297,26 @@ module.exports = function (racesData, carsData, mapsData, usersData) {
                     }
 
                     if (!canStart) {
-                        res.status(400);
-                        res.json("You can't start someone's race");
+                        notifier.notify({
+                            'title': 'Error',
+                            'message': 'You cant start someones race',
+                            icon: constants.controllerImgDir + 'notification_error.png',
+                            time: 2000
+                        });
+                        res.redirect(req.get('referer'));
                         return;
                     }
 
                     var countOfCompetitors = responseRace.users.length;
 
                     if (countOfCompetitors <= 1) {
-                        res.status(400);
-                        res.json("There are not enough racers to compete!");
+                        notifier.notify({
+                            'title': 'Error',
+                            'message': 'There are not enough racers to compete!',
+                            icon: constants.controllerImgDir + 'notification_error.png',
+                            time: 2000
+                        });
+                        res.redirect(req.get('referer'));
                         return;
                     }
 
@@ -323,8 +335,6 @@ module.exports = function (racesData, carsData, mapsData, usersData) {
                                                 usersFromDb.push(responseUser);
 
                                                 if (carsFromDb.length == countOfCompetitors && usersFromDb.length == countOfCompetitors) {
-
-                                                    res.status(200);
                                                     var winnersToGet = 0;
                                                     if (countOfCompetitors < responseMap.prizes.length) {
                                                         winnersToGet = countOfCompetitors;
@@ -347,7 +357,6 @@ module.exports = function (racesData, carsData, mapsData, usersData) {
                                                     }
                                                     responseRace.status = 'Finished';
                                                     responseRace.winners = winnersToSave;
-                                                    console.log(winnersToSave);
                                                     responseRace.save();
                                                     res.status(300);
                                                     res.redirect(req.get('referer'));
