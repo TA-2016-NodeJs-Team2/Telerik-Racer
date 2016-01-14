@@ -12,5 +12,20 @@ module.exports = {
                 res(result);
             }
         };
+    },
+    details: function (id) {
+        return {
+            then: function (res, rej ) {
+                if (id.includes('9')) {
+                	return res({
+                        name: 'Detailed Map'
+                    });
+                }
+                rej({
+                    status: 404,
+                    message: 'Not found'
+                });
+            }
+        };
     }
 };
