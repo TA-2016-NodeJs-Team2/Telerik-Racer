@@ -1,8 +1,15 @@
 'use strict';
 
-var constants = require('../common/constants');
+var constants = require('../common/constants'),
+    path = require('path');
 
-module.exports = function (maps) {
+var notifyError = {
+    'title': 'Error',
+    icon: path.join(__dirname, '../../imgs/', 'notification_error.png'),
+    time: 2000
+};
+
+module.exports = function (maps, notifier) {
     return {
         getAll: function (req, res) {
             maps.all(req.query)
@@ -22,27 +29,28 @@ module.exports = function (maps) {
 
             // Argument passed in must be a single String of 12 bytes or a string of 24 hex characters
             if (!constants.objectIdPattern.test(req.params.id)) {
-                res.status(400)
-                    .json({
-                        message: 'This is not an Id'
-                    });
-                return;
+                notifyError.message = 'Wrong url';
+                notifier.notify(notifyError);
+                return res.status(400)
+                    .redirect('/maps/all');
             }
 
             maps.details(req.params.id)
                 .then(function (responseMap) {
                     res.render('map-views/map-detail', {map: responseMap});
                 }, function (err) {
+                    notifyError.message = err.message;
+                    notifier.notify(notifyError);
                     res.status(err.status || 400)
-                        .json({
-                            message: err.message
-                        });
+                        .redirect('/maps/all');
                 });
         },
         add: function (req, res) {
             if (!req.body) {
-                res.status(400)
-                    .json('Please provide a map!');
+                notifyError.message = 'Map was not provided';
+                notifier.notify(notifyError);
+                return res.status(400)
+                    .redirect('/maps/add');
             }
 
             var map = req.body;
@@ -67,9 +75,11 @@ module.exports = function (maps) {
 
             if (map.prizes.length !== minLength ||
                 map.respectGiven.length !== minLength) {
-                res.status(400)
-                    .json('Prizes and respects should be ' + minLength + ' positive numbers!');
-                return;
+
+                notifyError.message = 'Prizes and respects should be ' + minLength + ' positive numbers!';
+                notifier.notify(notifyError);
+                return res.status(400)
+                    .redirect('/maps/add');
             }
 
             map.prizes.sort(function (a, b) {
@@ -95,11 +105,10 @@ module.exports = function (maps) {
         delete: function (req, res) {
             // Argument passed in must be a single String of 12 bytes or a string of 24 hex characters
             if (!constants.objectIdPattern.test(req.params.id)) {
-                res.status(400)
-                    .json({
-                        message: 'This is not an Id'
-                    });
-                return;
+                notifyError.message = 'Wrong url';
+                notifier.notify(notifyError);
+                return res.status(400)
+                    .redirect('/maps/all');
             }
 
             maps.remove(req.params.id)

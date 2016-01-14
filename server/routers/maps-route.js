@@ -4,7 +4,8 @@ var express = require('express'),
     router = new express.Router(),
     passport = require('passport'),
     mapsData = require('../data/data-maps'),
-    mapsController = require('../controllers/maps-controller')(mapsData),
+    notifier = require('node-notifier'),
+    mapsController = require('../controllers/maps-controller')(mapsData, notifier),
     constants = require('../common/constants');
 
 router.use(function (req, res, next) {
