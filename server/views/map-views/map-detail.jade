@@ -25,6 +25,10 @@ block main-content
                             span.label.label-success.pull-right= respect
         div.row
             h4
-                dic.alert-danger Damage to take from cars:&nbsp;&nbsp;&nbsp;
+                span.alert-danger Damage to take from cars:&nbsp;&nbsp;&nbsp;
                     strong.text-danger= map.damageToTake
+        div.row
+            h4
+                span Date created: &nbsp;&nbsp;&nbsp
+                    strong= map.date.toDateString()
 
